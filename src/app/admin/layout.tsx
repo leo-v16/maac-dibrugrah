@@ -38,6 +38,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { icon: LayoutDashboard, label: 'Dashboard', href: '/admin' },
     { icon: FileText, label: 'Blog Posts', href: '/admin/posts' },
     { icon: Users, label: 'Student Leads', href: '/admin/leads' },
+    { icon: LayoutDashboard, label: 'Popups', href: '/admin/popups' },
   ];
 
   return (

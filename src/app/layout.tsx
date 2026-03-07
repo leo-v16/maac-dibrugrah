@@ -2,6 +2,9 @@ import type { Metadata } from 'next';
 import { Montserrat, Poppins } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/layout/Navbar';
+import PopupManager from '@/components/layout/PopupManager';
+import EnquiryModal from '@/components/layout/EnquiryModal';
+import { EnquiryProvider } from '@/context/EnquiryContext';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -28,11 +31,15 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${montserrat.variable} ${poppins.variable}`}>
       <body className="font-sans antialiased text-white bg-obsidian-black selection:bg-maac-gold selection:text-obsidian-black">
-        <div className="noise-overlay" />
-        <Navbar />
-        <main className="relative">
-          {children}
-        </main>
+        <EnquiryProvider>
+          <div className="noise-overlay" />
+          <Navbar />
+          <PopupManager />
+          <EnquiryModal />
+          <main className="relative">
+            {children}
+          </main>
+        </EnquiryProvider>
       </body>
     </html>
   );

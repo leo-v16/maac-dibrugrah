@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useEnquiryModal } from '@/context/EnquiryContext';
 
 const navLinks = [
   { name: 'Home', href: '/' },
@@ -19,6 +20,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const { openModal } = useEnquiryModal();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -64,7 +66,10 @@ export default function Navbar() {
               {link.name}
             </Link>
           ))}
-          <button className="bg-electric-red hover:bg-electric-red/90 text-white px-6 py-2 text-sm uppercase tracking-widest font-bold transition-all hover:scale-105 active:scale-95 flex items-center gap-2">
+          <button 
+            onClick={openModal}
+            className="bg-electric-red hover:bg-electric-red/90 text-white px-6 py-2 text-sm uppercase tracking-widest font-bold transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
+          >
             Enquire Now <ChevronRight size={16} />
           </button>
         </div>
@@ -101,7 +106,13 @@ export default function Navbar() {
                 {link.name}
               </Link>
             ))}
-            <button className="mt-4 bg-electric-red text-white w-full py-4 font-heading uppercase tracking-widest text-lg">
+            <button 
+              onClick={() => {
+                setIsOpen(false);
+                openModal();
+              }}
+              className="mt-4 bg-electric-red text-white w-full py-4 font-heading uppercase tracking-widest text-lg"
+            >
               Enquire Now
             </button>
           </motion.div>

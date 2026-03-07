@@ -19,3 +19,17 @@ export interface StudentLead {
   courseInterest: string;
   createdAt: any;
 }
+
+export interface PopupAd {
+  id: string;
+  name: string;
+  imageUrl: string;
+  heading: string;
+  subheading: string;
+  buttonText: string;
+  buttonLink: string;
+  targetPages: string[];
+  delaySeconds: number;
+  isActive: boolean;
+  createdAt: any;
+}

@@ -2,23 +2,24 @@
 
 import { motion } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import { useEnquiryModal } from '@/context/EnquiryContext';
+
+const InteractiveHeroBackground = dynamic(
+  () => import('@/components/3d/InteractiveHeroBackground'),
+  { ssr: false }
+);
 
 export default function HomeHero() {
+  const { openModal } = useEnquiryModal();
+
   return (
     <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden bg-obsidian-black snap-start">
-      {/* Background Video (Placeholder) */}
-      <div className="absolute inset-0 z-0">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full h-full object-cover opacity-30 scale-110"
-        >
-          <source src="https://assets.mixkit.co/videos/preview/mixkit-stars-in-the-night-sky-flowing-slowly-39833-large.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-obsidian-black via-transparent to-obsidian-black" />
-      </div>
+      {/* 3D Interactive Background */}
+      <InteractiveHeroBackground />
+      
+      {/* Gradient Overlay for seamless blending with content */}
+      <div className="absolute inset-0 z-0 bg-gradient-to-b from-obsidian-black/50 via-transparent to-obsidian-black pointer-events-none" />
 
       {/* Video Text Clipping - Visual Impact */}
       <div className="relative z-10 container mx-auto px-6 text-center">
@@ -39,7 +40,10 @@ export default function HomeHero() {
           </p>
 
           <div className="mt-12 flex flex-col md:flex-row items-center justify-center gap-6">
-            <button className="group bg-electric-red text-white px-10 py-4 font-heading uppercase tracking-widest text-lg transition-all hover:pr-8">
+            <button 
+              onClick={openModal}
+              className="group bg-electric-red text-white px-10 py-4 font-heading uppercase tracking-widest text-lg transition-all hover:pr-8"
+            >
               <span className="flex items-center gap-2">
                 Explore Courses <ChevronRight className="transition-transform group-hover:translate-x-2" />
               </span>

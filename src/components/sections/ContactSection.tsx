@@ -132,7 +132,7 @@ export default function ContactSection() {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    placeholder="Your Name" 
+                    placeholder="e.g., Your Name" 
                     className="w-full bg-obsidian-black border border-white/10 p-4 font-sans text-white focus:outline-none focus:border-maac-gold transition-colors"
                   />
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -142,7 +142,7 @@ export default function ContactSection() {
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      placeholder="Email Address" 
+                      placeholder="e.g., example@email.com" 
                       className="w-full bg-obsidian-black border border-white/10 p-4 font-sans text-white focus:outline-none focus:border-maac-gold transition-colors"
                     />
                     <input 
