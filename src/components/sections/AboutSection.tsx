@@ -1,46 +1,114 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Award, Users, Camera, Globe } from 'lucide-react';
+import { 
+  Award, 
+  Users, 
+  Globe, 
+  Star, 
+  Camera, 
+  CheckCircle2, 
+  MonitorPlay, 
+  Laptop, 
+  Trophy, 
+  Briefcase, 
+  GraduationCap, 
+  CalendarDays, 
+  FolderKanban 
+} from 'lucide-react';
 
-const stats = [
-  { icon: Award, label: 'Industry Awards', value: '50+' },
-  { icon: Users, label: 'Expert Faculty', value: '12+' },
-  { icon: Camera, label: 'Modern Studios', value: '5+' },
-  { icon: Globe, label: 'Alumni Network', value: '1000+' },
+const features = [
+  { label: 'Free Demo Class', icon: MonitorPlay },
+  { label: 'Independent Practise Sessions', icon: Laptop },
+  { label: 'National & International Competitions', icon: Trophy },
+  { label: 'Direct Classes with Industry Experts', icon: Briefcase },
+  { label: 'Highly Experienced Faculties', icon: GraduationCap },
+  { label: 'Monthly Events', icon: CalendarDays },
+  { label: 'Portfolio Creation', icon: FolderKanban },
+  { label: '100% Guaranteed Job Placement Assistance', icon: Award }
 ];
 
 export default function AboutSection({ imageUrl }: { imageUrl: string }) {
+  const welcomeText = "Welcome to ";
+  const brandName = "MAAC Dibrugarh";
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.03,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
+  const letterVariants = {
+    hidden: { opacity: 0, y: 20, filter: 'blur(10px)' },
+    visible: {
+      opacity: [0, 1, 0, 1], // Flickering "Lightning" effect
+      y: 0,
+      filter: 'blur(0px)',
+      transition: {
+        duration: 0.4,
+        ease: "easeOut",
+      },
+    },
+  };
+
   return (
-    <section id="about" className="relative min-h-[120vh] md:h-screen flex items-center justify-center overflow-hidden bg-deep-navy snap-start py-20 md:py-0">
-      <div className="container mx-auto px-6 py-20 flex flex-col md:flex-row items-center gap-16">
+    <section id="about" className="relative min-h-[140vh] md:h-screen flex items-center justify-center overflow-hidden bg-deep-navy snap-start py-24 md:py-0">
+      <div className="container mx-auto px-6 flex flex-col md:flex-row items-start lg:items-center gap-12 lg:gap-16">
         
         {/* Left Content */}
-        <div className="flex-1">
+        <div className="flex-1 min-w-0 w-full text-center md:text-left order-2 md:order-1">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-4xl md:text-5xl font-heading mb-6 leading-tight">
-              A Studio-Driven <span className="text-maac-gold">Learning</span> Experience
-            </h2>
-            <p className="text-white/70 font-sans text-lg mb-8 leading-relaxed max-w-xl">
-              At MAAC Dibrugarh, we don't just teach software; we cultivate artists. Our campus is designed to mimic a professional production studio environment, ensuring students are industry-ready from day one.
+            <motion.h2 
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="text-[6.5vw] sm:text-[5.5vw] md:text-4xl lg:text-5xl font-heading mb-4 leading-tight uppercase text-white whitespace-nowrap overflow-visible"
+            >
+              {welcomeText.split("").map((char, index) => (
+                <motion.span key={`welcome-${index}`} variants={letterVariants} className="inline-block">
+                  {char === " " ? "\u00A0" : char}
+                </motion.span>
+              ))}
+              <span className="text-maac-gold">
+                {brandName.split("").map((char, index) => (
+                  <motion.span key={`brand-${index}`} variants={letterVariants} className="inline-block">
+                    {char === " " ? "\u00A0" : char}
+                  </motion.span>
+                ))}
+              </span>
+            </motion.h2>
+
+            <p className="text-white/70 font-sans text-base md:text-lg mb-10 leading-relaxed max-w-xl mx-auto md:mx-0">
+              Best Animation (AVGC) Institute in Assam. Our campus is designed to give you the experience of a professional production studio environment, ensuring students are industry-ready from day one.
             </p>
             
-            <div className="grid grid-cols-2 gap-8">
-              {stats.map((stat, idx) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
+            <p className="text-white/40 font-sans text-[10px] uppercase tracking-widest mb-6 block text-left">We also Provide:</p>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5 text-left">
+              {features.map((feature, idx) => (
+                <motion.div 
+                  key={feature.label} 
+                  initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 + idx * 0.1 }}
-                  className="flex flex-col"
+                  transition={{ delay: 0.5 + idx * 0.05 }}
+                  className="flex items-center gap-4 group"
                 >
-                  <stat.icon className="text-maac-gold mb-2" size={24} />
-                  <span className="text-2xl font-heading text-white">{stat.value}</span>
-                  <span className="text-xs uppercase tracking-widest text-white/40">{stat.label}</span>
+                  <div className="w-10 h-10 bg-maac-gold/10 border border-maac-gold/20 flex items-center justify-center flex-shrink-0 transition-all group-hover:bg-maac-gold/20 group-hover:scale-110">
+                    <feature.icon size={20} className="text-maac-gold" />
+                  </div>
+                  <div>
+                    <span className="text-white font-heading text-[10px] uppercase tracking-widest leading-tight block">{feature.label}</span>
+                  </div>
                 </motion.div>
               ))}
             </div>
@@ -48,14 +116,14 @@ export default function AboutSection({ imageUrl }: { imageUrl: string }) {
         </div>
 
         {/* Right Image/Visuals */}
-        <div className="flex-1 w-full max-w-lg aspect-square relative">
+        <div className="flex-1 w-full max-w-md md:max-w-lg aspect-square relative order-1 md:order-2 mb-8 md:mb-0 pt-12 md:pt-24 lg:pt-32">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1 }}
-            className="w-full h-full border border-white/10 rounded-sm p-4"
+            className="w-full h-full border border-white/10 rounded-sm p-3 md:p-4"
           >
-            <div className="w-full h-full overflow-hidden flex items-center justify-center bg-deep-navy">
+            <div className="w-full h-full overflow-hidden flex items-center justify-center bg-obsidian-black">
               <img 
                 src={imageUrl} 
                 alt="MAAC Dibrugarh Showcase" 
@@ -65,14 +133,14 @@ export default function AboutSection({ imageUrl }: { imageUrl: string }) {
             
             {/* Animated Floating Elements */}
             <motion.div
-              animate={{ y: [0, -20, 0] }}
+              animate={{ y: [0, -15, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute -top-6 -right-6 w-32 h-32 border border-maac-gold opacity-20"
+              className="absolute -top-4 -right-4 md:-top-6 md:-right-6 w-24 h-24 md:w-32 md:h-32 border border-maac-gold opacity-20"
             />
             <motion.div
-              animate={{ x: [0, 20, 0] }}
+              animate={{ x: [0, 15, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute -bottom-6 -left-6 w-24 h-24 border border-royal-blue opacity-20"
+              className="absolute -bottom-4 -left-4 md:-bottom-6 md:-left-6 w-20 h-20 md:w-24 md:h-24 border border-royal-blue opacity-20"
             />
           </motion.div>
         </div>

@@ -4,6 +4,7 @@ import './globals.css';
 import Navbar from '@/components/layout/Navbar';
 import GlobalAdPopup from '@/components/GlobalAdPopup';
 import EnquiryModal from '@/components/layout/EnquiryModal';
+import EnquiryOnLoad from '@/components/layout/EnquiryOnLoad';
 import { EnquiryProvider } from '@/context/EnquiryContext';
 import { courseService } from '@/services/courseService';
 import { settingsService } from '@/services/settingsService';
@@ -45,6 +46,7 @@ export default async function RootLayout({
           <Navbar />
           <GlobalAdPopup />
           <EnquiryModal />
+          <EnquiryOnLoad />
           <main className="relative">
             {children}
           </main>

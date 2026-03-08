@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, CheckCircle2, Instagram, Facebook, Youtube } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle2, Instagram, Facebook, Youtube, Linkedin } from 'lucide-react';
 import { leadService } from '@/services/leadService';
 import { useEnquiryModal } from '@/context/EnquiryContext';
 import { SiteSettings } from '@/services/settingsService';
@@ -13,7 +13,6 @@ export default function ContactSection({ settings }: { settings: SiteSettings })
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
     phone: '',
     courseInterest: 'Select Course'
   });
@@ -27,9 +26,9 @@ export default function ContactSection({ settings }: { settings: SiteSettings })
     
     setLoading(true);
     try {
-      await leadService.createLead(formData);
+      await leadService.createLead(formData as any);
       setSubmitted(true);
-      setFormData({ name: '', email: '', phone: '', courseInterest: 'Select Course' });
+      setFormData({ name: '', phone: '', courseInterest: 'Select Course' });
     } catch (err) {
       console.error(err);
       alert('Failed to send enquiry. Please try again.');
@@ -106,6 +105,9 @@ export default function ContactSection({ settings }: { settings: SiteSettings })
                   <a href={settings.youtubeUrl} target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-deep-navy border border-white/5 flex items-center justify-center text-white/40 hover:text-maac-gold hover:border-maac-gold/30 transition-all">
                     <Youtube size={20} />
                   </a>
+                  <a href={settings.linkedinUrl} target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-deep-navy border border-white/5 flex items-center justify-center text-white/40 hover:text-maac-gold hover:border-maac-gold/30 transition-all">
+                    <Linkedin size={20} />
+                  </a>
                 </div>
               </div>
             </motion.div>
@@ -154,16 +156,7 @@ export default function ContactSection({ settings }: { settings: SiteSettings })
                     placeholder="e.g., Your Name" 
                     className="w-full bg-obsidian-black border border-white/10 p-4 font-sans text-white focus:outline-none focus:border-maac-gold transition-colors"
                   />
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <input 
-                      type="email" 
-                      name="email"
-                      required
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="e.g., example@email.com" 
-                      className="w-full bg-obsidian-black border border-white/10 p-4 font-sans text-white focus:outline-none focus:border-maac-gold transition-colors"
-                    />
+                  <div className="space-y-4">
                     <input 
                       type="tel" 
                       name="phone"

@@ -12,7 +12,6 @@ export default function EnquiryModal() {
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
     phone: '',
     courseInterest: 'Select Course'
   });
@@ -36,9 +35,9 @@ export default function EnquiryModal() {
     
     setLoading(true);
     try {
-      await leadService.createLead(formData);
+      await leadService.createLead(formData as any);
       setSubmitted(true);
-      setFormData({ name: '', email: '', phone: '', courseInterest: 'Select Course' });
+      setFormData({ name: '', phone: '', courseInterest: 'Select Course' });
     } catch (err) {
       console.error(err);
       alert('Failed to send enquiry. Please try again.');
@@ -120,16 +119,6 @@ export default function EnquiryModal() {
                       type="text" name="name" required
                       value={formData.name} onChange={handleChange}
                       placeholder="e.g., Your Name"
-                      className="w-full bg-obsidian-black border border-white/5 p-4 font-sans text-white focus:outline-none focus:border-maac-gold/50 transition-colors"
-                    />
-                  </div>
-
-                  <div className="space-y-1">
-                    <label className="text-[10px] uppercase tracking-widest text-white/30">Email Address</label>
-                    <input 
-                      type="email" name="email" required
-                      value={formData.email} onChange={handleChange}
-                      placeholder="e.g., example@email.com"
                       className="w-full bg-obsidian-black border border-white/5 p-4 font-sans text-white focus:outline-none focus:border-maac-gold/50 transition-colors"
                     />
                   </div>

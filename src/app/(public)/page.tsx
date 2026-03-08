@@ -3,6 +3,7 @@ import AboutSection from '@/components/sections/AboutSection';
 import CoursesSection from '@/components/sections/CoursesSection';
 import ContactSection from '@/components/sections/ContactSection';
 import MapSection from '@/components/sections/MapSection';
+import EventsPromo from '@/components/sections/EventsPromo';
 import { courseService } from '@/services/courseService';
 import { settingsService } from '@/services/settingsService';
 import { Metadata } from 'next';
@@ -35,10 +36,11 @@ export default async function Home() {
         heading={settings.heroHeading}
         subheading={settings.heroSubheading}
       />
+      <CoursesSection courses={topCourses} />
       <AboutSection 
         imageUrl={settings.aboutImageUrl}
       />
-      <CoursesSection courses={topCourses} />
+      <EventsPromo />
       <ContactSection settings={settings} />
       <MapSection 
         address={settings.contactAddress}

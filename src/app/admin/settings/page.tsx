@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { settingsService, SiteSettings } from '@/services/settingsService';
 import { uploadMedia } from '@/lib/utils';
-import { Save, Video, Globe, RefreshCcw, Phone, Mail, MapPin, Instagram, Facebook, Youtube, Type, Clock, Image as ImageIcon } from 'lucide-react';
+import { Save, Video, Globe, RefreshCcw, Phone, Mail, MapPin, Instagram, Facebook, Youtube, Linkedin, Type, Clock, Image as ImageIcon } from 'lucide-react';
 import { revalidateAll } from '@/app/actions';
 
 export default function SettingsPage() {
@@ -181,7 +181,7 @@ export default function SettingsPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-white/5">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 pt-6 border-t border-white/5">
             <div className="space-y-2">
               <label className="text-[10px] uppercase tracking-widest text-white/40 flex items-center gap-2"><Instagram size={12}/> Instagram</label>
               <input
@@ -206,6 +206,15 @@ export default function SettingsPage() {
                 type="url"
                 value={settings.youtubeUrl}
                 onChange={(e) => updateField('youtubeUrl', e.target.value)}
+                className="w-full bg-obsidian-black border border-white/10 p-3 focus:border-maac-gold outline-none text-xs"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-[10px] uppercase tracking-widest text-white/40 flex items-center gap-2"><Linkedin size={12}/> Linkedin</label>
+              <input
+                type="url"
+                value={settings.linkedinUrl}
+                onChange={(e) => updateField('linkedinUrl', e.target.value)}
                 className="w-full bg-obsidian-black border border-white/10 p-3 focus:border-maac-gold outline-none text-xs"
               />
             </div>

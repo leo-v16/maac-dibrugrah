@@ -37,7 +37,7 @@ export interface Course {
 export interface StudentLead {
   id: string;
   name: string;
-  email: string;
+  email?: string;
   phone: string;
   courseInterest: string;
   createdAt: any;

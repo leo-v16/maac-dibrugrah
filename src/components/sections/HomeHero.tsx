@@ -29,7 +29,7 @@ export default function HomeHero({
       {/* 3D Interactive Background */}
       <InteractiveHeroBackground />
       
-      {/* Gradient Overlay for seamless blending with content */}
+      {/* Gradient Overlay */}
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-obsidian-black/50 via-transparent to-obsidian-black pointer-events-none" />
 
       {/* Hero Content */}
@@ -38,31 +38,35 @@ export default function HomeHero({
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: 'easeOut' }}
+          className="flex flex-col items-center"
         >
-          <div className="relative inline-block mb-4">
-             <h1 className="text-5xl md:text-8xl font-heading leading-tight tracking-tighter text-maac-gold uppercase">
-              {heading}
-            </h1>
+          {/* Eyebrow Pill */}
+          <div className="inline-block bg-maac-gold/10 border border-maac-gold/20 rounded-full px-4 py-1 mb-8">
+            <span className="text-maac-gold text-[10px] font-heading uppercase tracking-[0.3em]">
+              Best Animation Academy
+            </span>
           </div>
+
+          <h1 className="text-5xl md:text-8xl font-heading leading-tight tracking-tighter text-white uppercase max-w-5xl">
+            Transform Your <span className="text-maac-gold">Creativity</span> Into A Career.
+          </h1>
           
-          <p className="text-lg md:text-2xl text-white max-w-2xl mx-auto font-heading mt-8 uppercase tracking-[0.3em]">
+          <p className="text-lg md:text-xl text-white/60 max-w-2xl mx-auto font-sans mt-8 leading-relaxed">
             {subheading}
           </p>
 
           <div className="mt-12 flex flex-col md:flex-row items-center justify-center gap-6">
             <button 
               onClick={() => openModal()}
-              className="group bg-electric-red text-white px-10 py-4 font-heading uppercase tracking-widest text-lg transition-all hover:pr-8"
+              className="group bg-maac-gold text-obsidian-black px-10 py-4 rounded-full font-heading uppercase tracking-widest text-sm transition-all hover:bg-white flex items-center gap-2"
             >
-              <span className="flex items-center gap-2">
-                Explore Courses <ChevronRight className="transition-transform group-hover:translate-x-2" />
-              </span>
+              Explore Courses <ChevronRight size={18} className="transition-transform group-hover:translate-x-1" />
             </button>
             <button 
               onClick={() => setIsVideoModalOpen(true)}
-              className="group border border-white/20 hover:border-maac-gold hover:text-maac-gold text-white px-10 py-4 font-heading uppercase tracking-widest text-lg transition-all flex items-center gap-3"
+              className="px-10 py-4 rounded-full bg-deep-navy text-white font-heading uppercase tracking-widest text-sm transition-all hover:bg-white/10 border border-white/5"
             >
-              <Play size={18} className="transition-transform group-hover:scale-110" /> Watch Reel
+              Our Story
             </button>
           </div>
         </motion.div>

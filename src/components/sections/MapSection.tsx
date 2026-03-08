@@ -19,7 +19,7 @@ export default function MapSection({
           className="text-center mb-12"
         >
           <h2 className="text-4xl md:text-5xl font-heading mb-4 uppercase">
-            Visit Our <span className="text-maac-gold">Studio</span>
+            Visit Our <span className="text-maac-gold">Academy</span>
           </h2>
           <p className="text-white/40 font-sans tracking-widest uppercase text-sm flex items-center justify-center gap-2">
             <MapPin size={14} className="text-maac-gold" /> {address}

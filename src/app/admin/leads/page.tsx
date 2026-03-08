@@ -79,9 +79,11 @@ export default function AdminLeadsPage() {
                   </td>
                   <td className="px-6 py-6">
                     <div className="flex flex-col gap-1">
-                       <a href={`mailto:${lead.email}`} className="flex items-center gap-2 text-white/40 hover:text-white transition-colors text-xs">
-                          <Mail size={12} /> {lead.email}
-                       </a>
+                       {lead.email && (
+                         <a href={`mailto:${lead.email}`} className="flex items-center gap-2 text-white/40 hover:text-white transition-colors text-xs">
+                            <Mail size={12} /> {lead.email}
+                         </a>
+                       )}
                        <a href={`tel:${lead.phone}`} className="flex items-center gap-2 text-white/40 hover:text-white transition-colors text-xs">
                           <Phone size={12} /> {lead.phone}
                        </a>
