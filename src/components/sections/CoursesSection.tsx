@@ -2,31 +2,36 @@
 
 import { motion } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { courseService } from '@/services/courseService';
+import { Course } from '@/types';
+import Link from 'next/link';
 
-const courses = [
-  {
-    title: '3D Animation',
-    desc: 'Master character animation, lighting, and cinematic storytelling.',
-    color: 'border-maac-gold',
-    hover: 'group-hover:bg-maac-gold/10'
-  },
-  {
-    title: 'VFX (Visual Effects)',
-    desc: 'Create explosive, Hollywood-grade visual effects and simulations.',
-    color: 'border-electric-red',
-    hover: 'group-hover:bg-electric-red/10'
-  },
-  {
-    title: 'Game Design & AR/VR',
-    desc: 'Build immersive worlds for next-gen gaming and metaverses.',
-    color: 'border-royal-blue',
-    hover: 'group-hover:bg-royal-blue/10'
-  }
+const borderColors = [
+  'border-maac-gold',
+  'border-electric-red',
+  'border-royal-blue',
 ];
 
 export default function CoursesSection() {
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const data = await courseService.getPublished();
+        // Show only the top 3 on the home page for impact
+        setCourses(data.slice(0, 3));
+      } catch (err) {
+        console.error("Failed to fetch courses for home page", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCourses();
+  }, []);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -45,7 +50,7 @@ export default function CoursesSection() {
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  }, [loading]); // Re-bind if loading state changes
 
   return (
     <section id="courses" className="relative h-screen flex items-center justify-center overflow-hidden bg-obsidian-black snap-start">
@@ -61,27 +66,53 @@ export default function CoursesSection() {
           <p className="text-white/40 font-sans tracking-widest uppercase text-sm">Our Signature Career Programs</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {courses.map((course, idx) => (
-            <motion.div
-              key={course.title}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ delay: idx * 0.1 }}
-              className={`group spotlight-hover bg-deep-navy border-t-2 ${course.color} p-10 flex flex-col justify-between aspect-[3/4] cursor-pointer transition-all duration-500 hover:-translate-y-4`}
-            >
-              <div>
-                 <span className="text-white/20 font-heading text-6xl mb-6 block">0{idx + 1}</span>
-                 <h3 className="text-2xl font-heading mb-4 group-hover:text-maac-gold transition-colors">{course.title}</h3>
-                 <p className="text-white/60 font-sans leading-relaxed">{course.desc}</p>
-              </div>
-              
-              <div className="flex items-center gap-2 text-maac-gold font-heading text-sm tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-                Learn More <ChevronRight size={16} />
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="bg-deep-navy h-[400px] animate-pulse border border-white/5" />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {courses.map((course, idx) => (
+              <motion.div
+                key={course.id}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ delay: idx * 0.1 }}
+                className={`group spotlight-hover bg-deep-navy border-t-2 ${borderColors[idx % borderColors.length]} flex flex-col justify-between aspect-[3/4] cursor-pointer transition-all duration-500 hover:-translate-y-4 relative overflow-hidden`}
+              >
+                {/* Background Image with Overlay */}
+                <div className="absolute inset-0 z-0">
+                  <img 
+                    src={course.thumbnailUrl} 
+                    alt="" 
+                    className="w-full h-full object-cover opacity-20 group-hover:opacity-40 group-hover:scale-110 transition-all duration-700" 
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-deep-navy via-deep-navy/80 to-transparent" />
+                </div>
+
+                <Link href={`/courses/${course.slug}`} className="absolute inset-0 z-20" />
+                
+                <div className="relative z-10 p-10">
+                   <span className="text-white/20 font-heading text-6xl mb-6 block">0{idx + 1}</span>
+                   <h3 className="text-2xl font-heading mb-4 group-hover:text-maac-gold transition-colors">{course.title}</h3>
+                   <p className="text-white/60 font-sans leading-relaxed line-clamp-4">{course.excerpt}</p>
+                </div>
+                
+                <div className="relative z-10 p-10 pt-0 flex items-center gap-2 text-maac-gold font-heading text-sm tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+                  Learn More <ChevronRight size={16} />
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
+
+        {!loading && courses.length === 0 && (
+          <div className="text-center py-12 text-white/20 italic">
+            Check back soon for our latest programs.
+          </div>
+        )}
       </div>
     </section>
   );

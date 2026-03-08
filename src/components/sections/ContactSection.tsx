@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, CheckCircle2 } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle2, Instagram, Facebook, Youtube } from 'lucide-react';
 import { leadService } from '@/services/leadService';
+import { CONTACT_INFO } from '@/lib/constants';
 
 export default function ContactSection() {
   const [loading, setLoading] = useState(false);
@@ -58,14 +59,14 @@ export default function ContactSection() {
                 Have questions about our courses or career opportunities? Our team is ready to help you start your journey.
               </p>
               
-              <div className="space-y-8">
+              <div className="space-y-8 mb-12">
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-deep-navy border border-white/10 flex items-center justify-center text-maac-gold">
                     <MapPin size={24} />
                   </div>
                   <div>
                     <h4 className="font-heading text-sm tracking-widest text-white/40 mb-1">Location</h4>
-                    <p className="font-sans text-lg">Dibrugarh, Assam, India</p>
+                    <p className="font-sans text-lg">{CONTACT_INFO.ADDRESS}</p>
                   </div>
                 </div>
                 
@@ -75,7 +76,7 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <h4 className="font-heading text-sm tracking-widest text-white/40 mb-1">Call Us</h4>
-                    <p className="font-sans text-lg">+91 XXXXX XXXXX</p>
+                    <p className="font-sans text-lg">{CONTACT_INFO.PHONE}</p>
                   </div>
                 </div>
                 
@@ -85,8 +86,24 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <h4 className="font-heading text-sm tracking-widest text-white/40 mb-1">Email</h4>
-                    <p className="font-sans text-lg">info@maacdibrugarh.com</p>
+                    <p className="font-sans text-lg">{CONTACT_INFO.EMAIL}</p>
                   </div>
+                </div>
+              </div>
+
+              {/* Social Media Links */}
+              <div className="space-y-4">
+                <h4 className="font-heading text-sm tracking-widest text-white/40 uppercase">Follow Our Studio</h4>
+                <div className="flex gap-4">
+                  <a href={CONTACT_INFO.INSTAGRAM} target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-deep-navy border border-white/5 flex items-center justify-center text-white/40 hover:text-maac-gold hover:border-maac-gold/30 transition-all">
+                    <Instagram size={20} />
+                  </a>
+                  <a href={CONTACT_INFO.FACEBOOK} target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-deep-navy border border-white/5 flex items-center justify-center text-white/40 hover:text-maac-gold hover:border-maac-gold/30 transition-all">
+                    <Facebook size={20} />
+                  </a>
+                  <a href={CONTACT_INFO.YOUTUBE} target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-deep-navy border border-white/5 flex items-center justify-center text-white/40 hover:text-maac-gold hover:border-maac-gold/30 transition-all">
+                    <Youtube size={20} />
+                  </a>
                 </div>
               </div>
             </motion.div>
@@ -151,7 +168,7 @@ export default function ContactSection() {
                       required
                       value={formData.phone}
                       onChange={handleChange}
-                      placeholder="Phone Number" 
+                      placeholder={`e.g., ${CONTACT_INFO.PHONE}`}
                       className="w-full bg-obsidian-black border border-white/10 p-4 font-sans text-white focus:outline-none focus:border-maac-gold transition-colors"
                     />
                   </div>

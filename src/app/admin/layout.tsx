@@ -7,6 +7,7 @@ import { auth } from '@/lib/firebase';
 import Link from 'next/link';
 import { LayoutDashboard, FileText, Users, LogOut, ExternalLink, Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { BRAND_ASSETS } from '@/lib/constants';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<any>(null);
@@ -37,6 +38,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const menuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', href: '/admin' },
     { icon: FileText, label: 'Blog Posts', href: '/admin/posts' },
+    { icon: LayoutDashboard, label: 'Courses', href: '/admin/courses' },
     { icon: Users, label: 'Student Leads', href: '/admin/leads' },
     { icon: LayoutDashboard, label: 'Popups', href: '/admin/popups' },
   ];
@@ -45,7 +47,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div className="min-h-screen bg-obsidian-black flex flex-col md:flex-row">
       {/* Mobile Top Bar */}
       <div className="md:hidden flex items-center justify-between p-4 bg-deep-navy border-b border-white/5">
-        <Link href="/admin" className="font-heading text-lg tracking-tighter">MAAC <span className="text-maac-gold">ADMIN</span></Link>
+        <Link href="/admin" className="group">
+          <img src={BRAND_ASSETS.LOGO} alt="Logo" className="h-10 w-auto" />
+        </Link>
         <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="text-white">
           {isSidebarOpen ? <X /> : <Menu />}
         </button>
@@ -57,8 +61,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         <div className="p-8">
-          <Link href="/admin" className="font-heading text-xl tracking-tighter block mb-12">
-            MAAC <span className="text-maac-gold">ADMIN</span>
+          <Link href="/admin" className="block mb-12">
+            <img src={BRAND_ASSETS.LOGO} alt="MAAC Admin" className="h-10 w-auto" />
           </Link>
           
           <nav className="space-y-2">

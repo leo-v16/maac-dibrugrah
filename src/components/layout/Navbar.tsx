@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useEnquiryModal } from '@/context/EnquiryContext';
+import { BRAND_ASSETS } from '@/lib/constants';
 
 const navLinks = [
   { name: 'Home', href: '/' },
@@ -42,14 +43,12 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 bg-maac-gold flex items-center justify-center rounded-sm transition-transform group-hover:rotate-12">
-            <span className="text-obsidian-black font-heading text-xl font-bold">M</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="font-heading text-lg leading-none tracking-tighter">MAAC</span>
-            <span className="text-[10px] uppercase tracking-[0.2em] text-maac-gold">Dibrugarh</span>
-          </div>
+        <Link href="/" className="flex items-center gap-3 group">
+          <img 
+            src={BRAND_ASSETS.LOGO} 
+            alt="MAAC Dibrugarh Logo" 
+            className="h-12 w-auto transition-transform group-hover:scale-105"
+          />
         </Link>
 
         {/* Desktop Nav */}

@@ -33,3 +33,17 @@ export interface PopupAd {
   isActive: boolean;
   createdAt: any;
 }
+
+export interface Course {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  duration: string;
+  content: string;
+  thumbnailUrl: string;
+  videoUrl?: string;
+  audioUrl?: string;
+  status: 'draft' | 'published';
+  createdAt: any;
+}

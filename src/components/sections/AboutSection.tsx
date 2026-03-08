@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Award, Users, Camera, Globe } from 'lucide-react';
+import { BRAND_ASSETS } from '@/lib/constants';
 
 const stats = [
   { icon: Award, label: 'Industry Awards', value: '50+' },
@@ -47,7 +48,7 @@ export default function AboutSection() {
           </motion.div>
         </div>
 
-        {/* Right Image/Visuals (Placeholder) */}
+        {/* Right Image/Visuals */}
         <div className="flex-1 w-full max-w-lg aspect-square relative">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
@@ -55,8 +56,12 @@ export default function AboutSection() {
             transition={{ duration: 1 }}
             className="w-full h-full border border-white/10 rounded-sm p-4"
           >
-            <div className="w-full h-full bg-gradient-to-tr from-maac-gold/20 via-obsidian-black to-royal-blue/20 flex items-center justify-center">
-              <span className="text-maac-gold font-heading tracking-widest text-lg opacity-20">STUDIO_CAMPUS_PREVIEW</span>
+            <div className="w-full h-full overflow-hidden flex items-center justify-center bg-deep-navy">
+              <img 
+                src={BRAND_ASSETS.BANNER} 
+                alt="MAAC Dibrugarh Banner" 
+                className="w-full h-full object-contain"
+              />
             </div>
             
             {/* Animated Floating Elements */}

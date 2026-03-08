@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send, CheckCircle2 } from 'lucide-react';
 import { useEnquiryModal } from '@/context/EnquiryContext';
 import { leadService } from '@/services/leadService';
+import { CONTACT_INFO } from '@/lib/constants';
 
 const courses = [
   '3D Animation',
@@ -138,7 +139,7 @@ export default function EnquiryModal() {
                     <input 
                       type="tel" name="phone" required
                       value={formData.phone} onChange={handleChange}
-                      placeholder="e.g., +91 9876543210"
+                      placeholder={`e.g., ${CONTACT_INFO.PHONE}`}
                       className="w-full bg-obsidian-black border border-white/5 p-4 font-sans text-white focus:outline-none focus:border-maac-gold/50 transition-colors"
                     />
                   </div>
