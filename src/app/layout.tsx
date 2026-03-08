@@ -5,6 +5,7 @@ import Navbar from '@/components/layout/Navbar';
 import PopupManager from '@/components/layout/PopupManager';
 import EnquiryModal from '@/components/layout/EnquiryModal';
 import { EnquiryProvider } from '@/context/EnquiryContext';
+import { courseService } from '@/services/courseService';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -23,15 +24,18 @@ export const metadata: Metadata = {
   description: 'Official website for MAAC Dibrugarh, the premier academy for Animation, VFX, 3D, and AI-driven marketing solutions.',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const publishedCourses = await courseService.getPublished();
+  const courseTitles = publishedCourses.map(c => c.title);
+
   return (
     <html lang="en" className={`${montserrat.variable} ${poppins.variable}`}>
       <body className="font-sans antialiased text-white bg-obsidian-black selection:bg-maac-gold selection:text-obsidian-black">
-        <EnquiryProvider>
+        <EnquiryProvider initialCourses={courseTitles}>
           <div className="noise-overlay" />
           <Navbar />
           <PopupManager />

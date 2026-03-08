@@ -4,20 +4,46 @@ import React, { createContext, useContext, useState } from 'react';
 
 interface EnquiryContextType {
   isOpen: boolean;
-  openModal: () => void;
+  openModal: (courseName?: string) => void;
   closeModal: () => void;
+  availableCourses: string[];
+  selectedCourseName: string | null;
 }
 
 const EnquiryContext = createContext<EnquiryContextType | undefined>(undefined);
 
-export function EnquiryProvider({ children }: { children: React.ReactNode }) {
+export function EnquiryProvider({ 
+  children, 
+  initialCourses = [] 
+}: { 
+  children: React.ReactNode; 
+  initialCourses?: string[];
+}) {
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedCourseName, setSelectedCourseName] = useState<string | null>(null);
 
-  const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
+  const openModal = (courseName?: string) => {
+    if (courseName) {
+      setSelectedCourseName(courseName);
+    } else {
+      setSelectedCourseName(null);
+    }
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+    setSelectedCourseName(null);
+  };
 
   return (
-    <EnquiryContext.Provider value={{ isOpen, openModal, closeModal }}>
+    <EnquiryContext.Provider value={{ 
+      isOpen, 
+      openModal, 
+      closeModal, 
+      availableCourses: initialCourses,
+      selectedCourseName
+    }}>
       {children}
     </EnquiryContext.Provider>
   );

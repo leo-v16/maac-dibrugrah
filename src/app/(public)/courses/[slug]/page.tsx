@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { Calendar, Clock, Award, Play, Headphones, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { cleanHtml } from '@/utils/sanitize';
+import EnquireButton from '@/components/courses/EnquireButton';
 
 // Force 100% Static Generation
 export async function generateStaticParams() {
@@ -131,9 +132,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                   <p className="text-white/40 text-sm font-sans mb-8 leading-relaxed">
                     Start your journey in the world of High-End Animation and VFX with MAAC Dibrugarh.
                   </p>
-                  <button className="w-full bg-maac-gold text-obsidian-black py-4 font-heading uppercase tracking-widest text-xs hover:bg-white transition-all">
-                    Enquire for Batches
-                  </button>
+                  <EnquireButton courseTitle={course.title} />
                   <div className="mt-6 flex items-center justify-center gap-4 text-[10px] uppercase tracking-widest text-white/20">
                     <span>EMI Available</span>
                     <span>•</span>

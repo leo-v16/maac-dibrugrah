@@ -11,3 +11,8 @@ export async function revalidateCourses(slug?: string) {
   // Also revalidate the dynamic route pattern
   revalidatePath('/courses/[slug]', 'page');
 }
+
+export async function revalidateGallery() {
+  revalidatePath('/');
+  revalidatePath('/gallery');
+}

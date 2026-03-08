@@ -48,3 +48,13 @@ export interface Course {
   status: 'draft' | 'published';
   createdAt: any;
 }
+
+export interface GalleryItem {
+  id: string;
+  title: string;
+  studentName: string;
+  mediaType: 'image' | 'video';
+  thumbnailUrl: string;
+  videoUrl?: string;
+  createdAt: any;
+}

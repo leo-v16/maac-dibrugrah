@@ -5,8 +5,10 @@ import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, CheckCircle2, Instagram, Facebook, Youtube } from 'lucide-react';
 import { leadService } from '@/services/leadService';
 import { CONTACT_INFO } from '@/lib/constants';
+import { useEnquiryModal } from '@/context/EnquiryContext';
 
 export default function ContactSection() {
+  const { availableCourses } = useEnquiryModal();
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
@@ -179,12 +181,10 @@ export default function ContactSection() {
                     onChange={handleChange}
                     className="w-full bg-obsidian-black border border-white/10 p-4 font-sans text-white focus:outline-none focus:border-maac-gold transition-colors appearance-none"
                   >
-                    <option disabled>Select Course</option>
-                    <option>3D Animation</option>
-                    <option>VFX (Visual Effects)</option>
-                    <option>Game Design</option>
-                    <option>Digital Marketing</option>
-                    <option>AI for Digital Content</option>
+                    <option disabled value="Select Course">Select Course</option>
+                    {availableCourses.map(course => (
+                      <option key={course} value={course}>{course}</option>
+                    ))}
                   </select>
                 </div>
 

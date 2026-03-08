@@ -1,23 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send, CheckCircle2 } from 'lucide-react';
 import { useEnquiryModal } from '@/context/EnquiryContext';
 import { leadService } from '@/services/leadService';
 import { CONTACT_INFO } from '@/lib/constants';
 
-const courses = [
-  '3D Animation',
-  'VFX (Visual Effects)',
-  'Game Design',
-  'Digital Marketing',
-  'AI for Digital Content',
-  'Motion Graphics'
-];
-
 export default function EnquiryModal() {
-  const { isOpen, closeModal } = useEnquiryModal();
+  const { isOpen, closeModal, availableCourses, selectedCourseName } = useEnquiryModal();
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
@@ -26,6 +17,16 @@ export default function EnquiryModal() {
     phone: '',
     courseInterest: 'Select Course'
   });
+
+  // Sync with selected course from context when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      setFormData(prev => ({
+        ...prev,
+        courseInterest: selectedCourseName || 'Select Course'
+      }));
+    }
+  }, [isOpen, selectedCourseName]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -151,8 +152,8 @@ export default function EnquiryModal() {
                       value={formData.courseInterest} onChange={handleChange}
                       className="w-full bg-obsidian-black border border-white/5 p-4 font-sans text-white focus:outline-none focus:border-maac-gold/50 transition-colors appearance-none"
                     >
-                      <option disabled>Select Course</option>
-                      {courses.map(course => (
+                      <option disabled value="Select Course">Select Course</option>
+                      {availableCourses.map(course => (
                         <option key={course} value={course}>{course}</option>
                       ))}
                     </select>
