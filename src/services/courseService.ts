@@ -24,10 +24,14 @@ export const courseService = {
       orderBy("createdAt", "desc")
     );
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    } as Course));
+    return querySnapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        ...data,
+        createdAt: data.createdAt?.toDate?.()?.toISOString() || null,
+      } as Course;
+    });
   },
 
   async getBySlug(slug: string): Promise<Course | null> {
@@ -35,19 +39,25 @@ export const courseService = {
     const querySnapshot = await getDocs(q);
     if (querySnapshot.empty) return null;
     const docData = querySnapshot.docs[0];
+    const data = docData.data();
     return {
       id: docData.id,
-      ...docData.data()
+      ...data,
+      createdAt: data.createdAt?.toDate?.()?.toISOString() || null,
     } as Course;
   },
 
   async getAll(): Promise<Course[]> {
     const q = query(courseCollection, orderBy("createdAt", "desc"));
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    } as Course));
+    return querySnapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        ...data,
+        createdAt: data.createdAt?.toDate?.()?.toISOString() || null,
+      } as Course;
+    });
   },
 
   async create(data: Omit<Course, "id" | "createdAt">): Promise<string> {

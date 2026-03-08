@@ -1,37 +1,22 @@
-'use client';
-
-import { useEffect, useState, use } from 'react';
 import { courseService } from '@/services/courseService';
-import { Course } from '@/types';
-import { motion } from 'framer-motion';
+import { notFound } from 'next/navigation';
 import { Calendar, Clock, Award, Play, Headphones, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
-export default function CourseDetailPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = use(params);
-  const [course, setCourse] = useState<Course | null>(null);
-  const [loading, setLoading] = useState(true);
+// Force 100% Static Generation
+export async function generateStaticParams() {
+  const courses = await courseService.getPublished();
+  return courses.map((course) => ({
+    slug: course.slug,
+  }));
+}
 
-  useEffect(() => {
-    courseService.getBySlug(slug).then(data => {
-      setCourse(data);
-      setLoading(false);
-    });
-  }, [slug]);
-
-  if (loading) {
-    return <div className="pt-32 min-h-screen bg-obsidian-black flex items-center justify-center text-maac-gold">Initializing Academy Content...</div>;
-  }
+export default async function CourseDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const course = await courseService.getBySlug(slug);
 
   if (!course) {
-    return (
-      <div className="pt-32 min-h-screen bg-obsidian-black flex flex-col items-center justify-center gap-6">
-        <h1 className="text-4xl font-heading uppercase tracking-[0.2em] opacity-30">Course Not Found</h1>
-        <Link href="/courses" className="text-maac-gold border-b border-maac-gold pb-1 font-heading text-sm uppercase tracking-widest">
-          Back to Career Programs
-        </Link>
-      </div>
-    );
+    notFound();
   }
 
   return (
@@ -59,14 +44,10 @@ export default function CourseDetailPage({ params }: { params: Promise<{ slug: s
         
         <div className="absolute bottom-12 left-0 w-full px-6">
           <div className="container mx-auto">
-             <motion.div
-               initial={{ opacity: 0, y: 20 }}
-               animate={{ opacity: 1, y: 0 }}
-               className="flex items-center gap-2 text-maac-gold font-heading text-[10px] uppercase tracking-[0.3em] mb-4"
-             >
+             <div className="flex items-center gap-2 text-maac-gold font-heading text-[10px] uppercase tracking-[0.3em] mb-4">
                {course.videoUrl ? <Play size={12} fill="currentColor" /> : <Award size={12} />} 
                {course.videoUrl ? 'Previewing Course' : 'Career Program'}
-             </motion.div>
+             </div>
           </div>
         </div>
       </section>
@@ -77,14 +58,11 @@ export default function CourseDetailPage({ params }: { params: Promise<{ slug: s
             
             {/* Main Content */}
             <div className="lg:col-span-2 space-y-12">
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-              >
+              <div>
                 <Link href="/courses" className="text-white/30 hover:text-maac-gold flex items-center gap-2 text-[10px] uppercase tracking-widest mb-8 transition-colors">
                   <ArrowLeft size={14} /> All Courses
                 </Link>
-                <h1 className="text-4xl md:text-6xl font-heading mb-6 leading-tight">
+                <h1 className="text-4xl md:text-6xl font-heading mb-6 leading-tight uppercase">
                   {course.title}
                 </h1>
                 <div className="flex flex-wrap items-center gap-8 text-[10px] uppercase tracking-widest text-maac-gold/60">
@@ -92,7 +70,7 @@ export default function CourseDetailPage({ params }: { params: Promise<{ slug: s
                   <span className="flex items-center gap-2"><Award size={14} /> Industry Certified</span>
                   <span className="flex items-center gap-2"><Calendar size={14} /> New Batch Starting Soon</span>
                 </div>
-              </motion.div>
+              </div>
 
               <div 
                 className="prose prose-invert prose-lg max-w-none font-sans text-white/70 leading-relaxed selection:bg-maac-gold selection:text-obsidian-black"
@@ -117,7 +95,7 @@ export default function CourseDetailPage({ params }: { params: Promise<{ slug: s
             {/* Sidebar / CTA */}
             <aside className="space-y-8">
                <div className="bg-deep-navy border border-white/5 p-8 sticky top-32">
-                  <h3 className="text-xl font-heading mb-6">Enroll Now</h3>
+                  <h3 className="text-xl font-heading mb-6 uppercase">Enroll Now</h3>
                   <p className="text-white/40 text-sm font-sans mb-8 leading-relaxed">
                     Start your journey in the world of High-End Animation and VFX with MAAC Dibrugarh.
                   </p>

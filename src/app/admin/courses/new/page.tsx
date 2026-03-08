@@ -6,6 +6,7 @@ import { courseService } from '@/services/courseService';
 import { useRouter } from 'next/navigation';
 import { Save, ArrowLeft, Upload, Image as ImageIcon, Video, Music } from 'lucide-react';
 import Link from 'next/link';
+import { revalidateCourses } from '@/app/actions';
 
 export default function NewCoursePage() {
   const [formData, setFormData] = useState({
@@ -50,6 +51,9 @@ export default function NewCoursePage() {
       if (audioUrl) courseData.audioUrl = audioUrl;
 
       await courseService.create(courseData);
+
+      // Trigger On-Demand Revalidation for static pages
+      await revalidateCourses(slug);
 
       router.push("/admin/courses");
     } catch (error) {
