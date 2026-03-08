@@ -44,6 +44,7 @@ export interface Course {
   thumbnailUrl: string;
   videoUrl?: string;
   audioUrl?: string;
+  embeddedHtml?: string;
   status: 'draft' | 'published';
   createdAt: any;
 }

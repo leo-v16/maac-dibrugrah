@@ -7,6 +7,10 @@ import { ArrowRight } from 'lucide-react';
 import { Course } from '@/types';
 
 export default function CourseGrid({ courses }: { courses: Course[] }) {
+  const isVideo = (url: string) => {
+    return url.includes('/video/upload/') || url.match(/\.(mp4|webm|ogg|mov)$/i);
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {courses.map((course, idx) => (
@@ -17,14 +21,25 @@ export default function CourseGrid({ courses }: { courses: Course[] }) {
           transition={{ delay: idx * 0.1 }}
           className="bg-deep-navy border border-white/5 overflow-hidden group flex flex-col"
         >
-          <div className="relative aspect-video overflow-hidden">
-            <Image
-              src={course.thumbnailUrl}
-              alt={course.title}
-              fill
-              className="object-cover transition-transform duration-500 group-hover:scale-110"
-            />
-            <div className="absolute top-4 right-4 bg-obsidian-black/80 backdrop-blur px-3 py-1 text-[10px] font-heading uppercase tracking-widest text-maac-gold border border-maac-gold/20">
+          <div className="relative aspect-video overflow-hidden bg-black">
+            {isVideo(course.thumbnailUrl) ? (
+              <video
+                src={course.thumbnailUrl}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+            ) : (
+              <Image
+                src={course.thumbnailUrl}
+                alt={course.title}
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+            )}
+            <div className="absolute top-4 right-4 bg-obsidian-black/80 backdrop-blur px-3 py-1 text-[10px] font-heading uppercase tracking-widest text-maac-gold border border-maac-gold/20 z-10">
               {course.duration}
             </div>
           </div>

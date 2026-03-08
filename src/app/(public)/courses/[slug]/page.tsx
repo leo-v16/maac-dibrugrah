@@ -2,6 +2,7 @@ import { courseService } from '@/services/courseService';
 import { notFound } from 'next/navigation';
 import { Calendar, Clock, Award, Play, Headphones, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import { cleanHtml } from '@/utils/sanitize';
 
 // Force 100% Static Generation
 export async function generateStaticParams() {
@@ -19,6 +20,10 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
     notFound();
   }
 
+  const isVideo = (url: string) => {
+    return url?.includes('/video/upload/') || url?.match(/\.(mp4|webm|ogg|mov)$/i);
+  };
+
   return (
     <div className="pt-24 min-h-screen bg-obsidian-black text-white">
       {/* Hero Section (Video or Image) */}
@@ -33,6 +38,15 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
           >
             <source src={course.videoUrl} />
           </video>
+        ) : isVideo(course.thumbnailUrl) ? (
+          <video
+            src={course.thumbnailUrl}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover opacity-40"
+          />
         ) : (
           <img 
             src={course.thumbnailUrl} 
@@ -42,11 +56,24 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-obsidian-black via-obsidian-black/20 to-transparent" />
         
+        {/* All Courses Back Button */}
+        <div className="absolute top-8 left-8 z-20">
+          <Link 
+            href="/courses" 
+            className="group flex items-center gap-3 bg-obsidian-black/40 hover:bg-maac-gold backdrop-blur-md border border-white/10 hover:border-maac-gold px-6 py-3 transition-all duration-300"
+          >
+            <ArrowLeft size={20} className="text-maac-gold group-hover:text-obsidian-black transition-colors" />
+            <span className="font-heading text-sm uppercase tracking-[0.2em] text-white group-hover:text-obsidian-black transition-colors">
+              All Courses
+            </span>
+          </Link>
+        </div>
+
         <div className="absolute bottom-12 left-0 w-full px-6">
           <div className="container mx-auto">
              <div className="flex items-center gap-2 text-maac-gold font-heading text-[10px] uppercase tracking-[0.3em] mb-4">
-               {course.videoUrl ? <Play size={12} fill="currentColor" /> : <Award size={12} />} 
-               {course.videoUrl ? 'Previewing Course' : 'Career Program'}
+               {(course.videoUrl || isVideo(course.thumbnailUrl)) ? <Play size={12} fill="currentColor" /> : <Award size={12} />} 
+               {(course.videoUrl || isVideo(course.thumbnailUrl)) ? 'Previewing Course' : 'Career Program'}
              </div>
           </div>
         </div>
@@ -59,9 +86,6 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
             {/* Main Content */}
             <div className="lg:col-span-2 space-y-12">
               <div>
-                <Link href="/courses" className="text-white/30 hover:text-maac-gold flex items-center gap-2 text-[10px] uppercase tracking-widest mb-8 transition-colors">
-                  <ArrowLeft size={14} /> All Courses
-                </Link>
                 <h1 className="text-4xl md:text-6xl font-heading mb-6 leading-tight uppercase">
                   {course.title}
                 </h1>
@@ -76,6 +100,14 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                 className="prose prose-invert prose-lg max-w-none font-sans text-white/70 leading-relaxed selection:bg-maac-gold selection:text-obsidian-black"
                 dangerouslySetInnerHTML={{ __html: course.content }}
               />
+
+              {/* Secure Injected HTML Section */}
+              {course.embeddedHtml && (
+                <div 
+                  className="prose prose-invert max-w-none border-t border-white/5 pt-12 mt-12"
+                  dangerouslySetInnerHTML={{ __html: cleanHtml(course.embeddedHtml) }}
+                />
+              )}
 
               {course.audioUrl && (
                 <div className="p-8 bg-deep-navy border border-white/5 relative overflow-hidden group">

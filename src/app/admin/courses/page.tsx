@@ -6,10 +6,15 @@ import { Course } from '@/types';
 import Link from 'next/link';
 import { Plus, Edit2, Trash2, Eye, EyeOff, ExternalLink } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { revalidateCourses } from '@/app/actions';
 
 export default function AdminCoursesPage() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const isVideo = (url: string) => {
+    return url?.includes('/video/upload/') || url?.match(/\.(mp4|webm|ogg|mov)$/i);
+  };
 
   useEffect(() => {
     fetchCourses();
@@ -34,6 +39,17 @@ export default function AdminCoursesPage() {
       } catch (err) {
         alert('Error deleting course');
       }
+    }
+  };
+
+  const toggleStatus = async (course: Course) => {
+    const newStatus = course.status === 'published' ? 'draft' : 'published';
+    try {
+      await courseService.update(course.id, { status: newStatus });
+      await revalidateCourses(course.slug);
+      fetchCourses();
+    } catch (err) {
+      alert('Error updating status');
     }
   };
 
@@ -69,10 +85,21 @@ export default function AdminCoursesPage() {
             >
               <div className="flex items-center gap-6">
                  <div className="w-20 h-12 bg-obsidian-black border border-white/5 overflow-hidden hidden sm:block">
-                    <img src={course.thumbnailUrl} alt="" className="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity" />
+                    {isVideo(course.thumbnailUrl) ? (
+                      <video 
+                        src={course.thumbnailUrl} 
+                        autoPlay 
+                        loop 
+                        muted 
+                        playsInline 
+                        className="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity" 
+                      />
+                    ) : (
+                      <img src={course.thumbnailUrl} alt="" className="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity" />
+                    )}
                  </div>
                  <div>
-                    <h3 className="font-heading text-lg group-hover:text-maac-gold transition-colors">{course.title}</h3>
+                    <h3 className="font-heading text-lg group-hover:text-maac-gold transition-colors uppercase">{course.title}</h3>
                     <div className="flex items-center gap-4 mt-1">
                        <span className="text-[10px] text-white/30 uppercase tracking-widest">{course.duration}</span>
                        <span className={`text-[10px] uppercase tracking-widest flex items-center gap-1 ${course.status === 'published' ? 'text-maac-gold' : 'text-electric-red'}`}>
@@ -84,6 +111,13 @@ export default function AdminCoursesPage() {
               </div>
 
               <div className="flex gap-2 mt-6 md:mt-0">
+                <button 
+                  onClick={() => toggleStatus(course)}
+                  className={`p-3 bg-white/5 transition-all ${course.status === 'published' ? 'hover:bg-maac-gold/20 text-maac-gold' : 'hover:bg-white/10 text-white/40'}`}
+                  title={course.status === 'published' ? 'Set to Draft' : 'Publish Course'}
+                >
+                  {course.status === 'published' ? <Eye size={18} /> : <EyeOff size={18} />}
+                </button>
                 <Link 
                   href={`/courses/${course.slug}`} 
                   target="_blank"
@@ -92,12 +126,13 @@ export default function AdminCoursesPage() {
                 >
                   <ExternalLink size={18} />
                 </Link>
-                <button 
+                <Link 
+                  href={`/admin/courses/${course.id}`}
                   className="p-3 bg-white/5 hover:bg-royal-blue/20 text-white/40 hover:text-royal-blue transition-all"
                   title="Edit Course"
                 >
                   <Edit2 size={18} />
-                </button>
+                </Link>
                 <button 
                   onClick={() => handleDelete(course.id)}
                   className="p-3 bg-white/5 hover:bg-electric-red/20 text-white/40 hover:text-electric-red transition-all"
