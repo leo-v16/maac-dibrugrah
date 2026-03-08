@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { adService } from '@/services/adService';
 import { Ad } from '@/types';
 import Link from 'next/link';
-import { Plus, Trash2, Eye, EyeOff, ExternalLink } from 'lucide-react';
+import { Plus, Trash2, Eye, EyeOff, ExternalLink, Edit2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { revalidateAll } from '@/app/actions';
 
@@ -28,9 +28,14 @@ export default function AdminAdsPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('Delete this ad?')) {
-      // Note: I should add a delete method to adService, but for now I'll skip or just focus on toggle
-      alert('Delete feature coming soon. Use toggle for now.');
+    if (confirm('Are you sure you want to delete this ad?')) {
+      try {
+        await adService.deleteAd(id);
+        await revalidateAll();
+        fetchAds();
+      } catch (err) {
+        alert('Error deleting ad');
+      }
     }
   };
 
@@ -106,6 +111,13 @@ export default function AdminAdsPage() {
                 >
                   {ad.isActive ? <Eye size={18} /> : <EyeOff size={18} />}
                 </button>
+                <Link 
+                  href={`/admin/ads/${ad.id}`}
+                  className="p-3 bg-white/5 hover:bg-royal-blue/20 text-white/40 hover:text-royal-blue transition-all"
+                  title="Edit Ad"
+                >
+                  <Edit2 size={18} />
+                </Link>
                 <a 
                   href={ad.targetLink} 
                   target="_blank"
@@ -114,6 +126,13 @@ export default function AdminAdsPage() {
                 >
                   <ExternalLink size={18} />
                 </a>
+                <button 
+                  onClick={() => handleDelete(ad.id)}
+                  className="p-3 bg-white/5 hover:bg-electric-red/20 text-white/40 hover:text-electric-red transition-all"
+                  title="Delete Ad"
+                >
+                  <Trash2 size={18} />
+                </button>
               </div>
             </motion.div>
           ))}

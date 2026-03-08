@@ -1,12 +1,13 @@
-'use client';
-
 import AboutSection from '@/components/sections/AboutSection';
+import { settingsService } from '@/services/settingsService';
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const settings = await settingsService.getSettings();
+
   return (
     <div className="pt-24 min-h-screen bg-obsidian-black">
       {/* Introduction Section */}
-      <AboutSection />
+      <AboutSection imageUrl={settings.aboutImageUrl} />
       
       {/* Detailed Mission and History */}
       <section className="py-32 border-t border-deep-navy relative overflow-hidden">
@@ -15,7 +16,7 @@ export default function AboutPage() {
         
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-heading text-maac-gold mb-10 leading-tight">Our Mission</h2>
+            <h2 className="text-4xl md:text-5xl font-heading text-maac-gold mb-10 leading-tight uppercase">Our Mission</h2>
             <p className="text-xl md:text-2xl text-white/80 leading-relaxed font-sans mb-16">
               To empower the next generation of creative storytellers in Dibrugarh. We bridge the gap between imagination and industry reality through rigorous studio-grade training.
             </p>

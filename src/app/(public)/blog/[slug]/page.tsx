@@ -4,6 +4,26 @@ import Image from 'next/image';
 import { Calendar, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { cleanHtml } from '@/utils/sanitize';
+import { parseDriveUrl } from '@/utils/drive';
+import { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const blog = await blogService.getBlogBySlug(slug);
+
+  if (!blog) return { title: 'Insight Not Found' };
+
+  return {
+    title: `${blog.title} | MAAC Dibrugarh Insights`,
+    description: blog.excerpt,
+    openGraph: {
+      title: blog.title,
+      description: blog.excerpt,
+      images: [blog.coverImageUrl],
+      type: 'article',
+    },
+  };
+}
 
 export async function generateStaticParams() {
   const blogs = await blogService.getAllBlogs();
@@ -20,15 +40,30 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
     notFound();
   }
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: blog.title,
+    description: blog.excerpt,
+    image: blog.coverImageUrl,
+    datePublished: blog.createdAt,
+    author: {
+      '@type': 'Organization',
+      name: 'MAAC Dibrugarh',
+    },
+  };
+
   return (
     <div className="pt-24 min-h-screen bg-obsidian-black text-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="relative w-full h-[50vh] md:h-[60vh] bg-black">
-        <Image
-          src={blog.coverImageUrl}
+        <img
+          src={parseDriveUrl(blog.coverImageUrl)}
           alt={blog.title}
-          fill
-          priority
-          className="object-cover opacity-60"
+          className="w-full h-full object-cover opacity-60"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-obsidian-black via-transparent to-transparent" />
         

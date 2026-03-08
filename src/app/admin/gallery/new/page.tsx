@@ -88,7 +88,7 @@ export default function NewGalleryItemPage() {
               value={formData.studentName}
               onChange={e => setFormData({ ...formData, studentName: e.target.value })}
               className="w-full bg-obsidian-black border border-white/10 p-4 focus:border-maac-gold outline-none transition-colors"
-              placeholder="e.g., Alex Rivers"
+              placeholder="e.g., Your Name"
             />
           </div>
         </div>

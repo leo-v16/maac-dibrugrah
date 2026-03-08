@@ -2,22 +2,27 @@
 
 import { motion } from 'framer-motion';
 import { MapPin } from 'lucide-react';
-import { CONTACT_INFO } from '@/lib/constants';
 
-export default function MapSection() {
+export default function MapSection({ 
+  address, 
+  operatingHours 
+}: { 
+  address: string;
+  operatingHours: string;
+}) {
   return (
-    <section id="location" className="relative h-screen flex items-center justify-center overflow-hidden bg-deep-navy snap-start">
+    <section id="location" className="relative min-h-[120vh] md:h-screen flex items-center justify-center overflow-hidden bg-deep-navy snap-start py-20 md:py-0">
       <div className="container mx-auto px-6 py-20 flex flex-col h-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl md:text-5xl font-heading mb-4">
+          <h2 className="text-4xl md:text-5xl font-heading mb-4 uppercase">
             Visit Our <span className="text-maac-gold">Studio</span>
           </h2>
           <p className="text-white/40 font-sans tracking-widest uppercase text-sm flex items-center justify-center gap-2">
-            <MapPin size={14} className="text-maac-gold" /> {CONTACT_INFO.ADDRESS}
+            <MapPin size={14} className="text-maac-gold" /> {address}
           </p>
         </motion.div>
 
@@ -37,14 +42,14 @@ export default function MapSection() {
             referrerPolicy="no-referrer-when-downgrade"
           ></iframe>
           
-          {/* Overlay to catch initial clicks/scrolls if needed, or just for styling */}
+          {/* Overlay styling */}
           <div className="absolute inset-0 pointer-events-none border-[20px] border-deep-navy opacity-50" />
         </motion.div>
         
         <div className="mt-12 text-center">
            <div className="inline-block px-8 py-4 bg-obsidian-black border border-white/5 rounded-sm">
               <h4 className="text-maac-gold font-heading text-sm uppercase tracking-widest mb-1">Operating Hours</h4>
-              <p className="text-white/60 font-sans text-sm tracking-wide">Mon - Sat: 10:00 AM - 7:00 PM</p>
+              <p className="text-white/60 font-sans text-sm tracking-wide">{operatingHours}</p>
            </div>
         </div>
       </div>

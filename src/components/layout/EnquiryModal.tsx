@@ -5,10 +5,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send, CheckCircle2 } from 'lucide-react';
 import { useEnquiryModal } from '@/context/EnquiryContext';
 import { leadService } from '@/services/leadService';
-import { CONTACT_INFO } from '@/lib/constants';
 
 export default function EnquiryModal() {
-  const { isOpen, closeModal, availableCourses, selectedCourseName } = useEnquiryModal();
+  const { isOpen, closeModal, availableCourses, selectedCourseName, contactPhone } = useEnquiryModal();
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
@@ -140,7 +139,7 @@ export default function EnquiryModal() {
                     <input 
                       type="tel" name="phone" required
                       value={formData.phone} onChange={handleChange}
-                      placeholder={`e.g., ${CONTACT_INFO.PHONE}`}
+                      placeholder="e.g., +91 9876543210"
                       className="w-full bg-obsidian-black border border-white/5 p-4 font-sans text-white focus:outline-none focus:border-maac-gold/50 transition-colors"
                     />
                   </div>

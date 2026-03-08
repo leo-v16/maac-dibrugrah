@@ -2,6 +2,8 @@ import {
   collection, 
   getDocs, 
   addDoc, 
+  deleteDoc,
+  doc,
   query, 
   orderBy, 
   serverTimestamp 
@@ -24,5 +26,10 @@ export const leadService = {
       createdAt: serverTimestamp(),
     });
     return docRef.id;
+  },
+
+  async deleteLead(id: string): Promise<void> {
+    const docRef = doc(db, "leads", id);
+    await deleteDoc(docRef);
   }
 };

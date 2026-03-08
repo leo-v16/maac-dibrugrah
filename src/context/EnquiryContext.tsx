@@ -8,16 +8,19 @@ interface EnquiryContextType {
   closeModal: () => void;
   availableCourses: string[];
   selectedCourseName: string | null;
+  contactPhone: string;
 }
 
 const EnquiryContext = createContext<EnquiryContextType | undefined>(undefined);
 
 export function EnquiryProvider({ 
   children, 
-  initialCourses = [] 
+  initialCourses = [],
+  contactPhone = ''
 }: { 
   children: React.ReactNode; 
   initialCourses?: string[];
+  contactPhone?: string;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCourseName, setSelectedCourseName] = useState<string | null>(null);
@@ -42,7 +45,8 @@ export function EnquiryProvider({
       openModal, 
       closeModal, 
       availableCourses: initialCourses,
-      selectedCourseName
+      selectedCourseName,
+      contactPhone
     }}>
       {children}
     </EnquiryContext.Provider>

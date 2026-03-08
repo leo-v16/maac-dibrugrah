@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react';
 import { blogService } from '@/services/blogService';
 import { Blog } from '@/types';
 import Link from 'next/link';
-import { Plus, ExternalLink, Calendar } from 'lucide-react';
+import { Plus, ExternalLink, Calendar, Trash2, Edit2 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { revalidateBlogs } from '@/app/actions';
 
 export default function AdminBlogsPage() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
@@ -23,6 +24,18 @@ export default function AdminBlogsPage() {
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (confirm('Are you sure you want to delete this story?')) {
+      try {
+        await blogService.deleteBlog(id);
+        await revalidateBlogs();
+        fetchBlogs();
+      } catch (err) {
+        alert('Error deleting post');
+      }
     }
   };
 
@@ -75,6 +88,23 @@ export default function AdminBlogsPage() {
                    >
                     View Live <ExternalLink size={12} />
                    </Link>
+                   
+                   <div className="flex items-center gap-4">
+                     <Link 
+                      href={`/admin/blogs/${blog.id}`}
+                      className="text-royal-blue/40 hover:text-royal-blue transition-all"
+                      title="Edit Story"
+                     >
+                      <Edit2 size={14} />
+                     </Link>
+                     <button 
+                      onClick={() => handleDelete(blog.id)}
+                      className="text-electric-red/40 hover:text-electric-red transition-all"
+                      title="Delete Post"
+                     >
+                      <Trash2 size={14} />
+                     </button>
+                   </div>
                 </div>
               </div>
             </motion.div>

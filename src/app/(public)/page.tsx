@@ -3,27 +3,47 @@ import AboutSection from '@/components/sections/AboutSection';
 import CoursesSection from '@/components/sections/CoursesSection';
 import ContactSection from '@/components/sections/ContactSection';
 import MapSection from '@/components/sections/MapSection';
-import GallerySection from '@/components/sections/GallerySection';
 import { courseService } from '@/services/courseService';
-import { galleryService } from '@/services/galleryService';
+import { settingsService } from '@/services/settingsService';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'MAAC Dibrugarh | Best Animation, VFX & Gaming Institute in Assam',
+  description: 'Join MAAC Dibrugarh for world-class training in 3D Animation, Visual Effects, Game Design, and Digital Content Creation. Master the art of visual storytelling.',
+  keywords: ['Animation', 'VFX', 'Gaming', 'MAAC', 'Dibrugarh', 'Career Courses', 'Multimedia'],
+  openGraph: {
+    title: 'MAAC Dibrugarh - Official Website',
+    description: 'Premier academy for Animation, VFX, and Digital Arts.',
+    url: 'https://maacdibrugarh.com',
+    siteName: 'MAAC Dibrugarh',
+    type: 'website',
+  },
+};
 
 export default async function Home() {
-  const [allCourses, allGalleryItems] = await Promise.all([
+  const [allCourses, settings] = await Promise.all([
     courseService.getPublished(),
-    galleryService.getAllItems()
+    settingsService.getSettings()
   ]);
 
   const topCourses = allCourses.slice(0, 3);
-  const topGalleryItems = allGalleryItems.slice(0, 4);
 
   return (
     <div className="h-screen overflow-y-auto snap-y snap-proximity scroll-smooth">
-      <HomeHero />
-      <AboutSection />
+      <HomeHero 
+        showreelUrl={settings.showreelUrl} 
+        heading={settings.heroHeading}
+        subheading={settings.heroSubheading}
+      />
+      <AboutSection 
+        imageUrl={settings.aboutImageUrl}
+      />
       <CoursesSection courses={topCourses} />
-      <GallerySection items={topGalleryItems} />
-      <ContactSection />
-      <MapSection />
+      <ContactSection settings={settings} />
+      <MapSection 
+        address={settings.contactAddress}
+        operatingHours={settings.operatingHours}
+      />
     </div>
   );
 }

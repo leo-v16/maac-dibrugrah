@@ -25,5 +25,6 @@ export async function revalidateBlogs(slug?: string) {
 }
 
 export async function revalidateAll() {
+  revalidatePath('/about');
   revalidatePath('/', 'layout');
 }

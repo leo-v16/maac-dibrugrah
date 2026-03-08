@@ -7,6 +7,7 @@ import GlobalAdPopup from '@/components/GlobalAdPopup';
 import EnquiryModal from '@/components/layout/EnquiryModal';
 import { EnquiryProvider } from '@/context/EnquiryContext';
 import { courseService } from '@/services/courseService';
+import { settingsService } from '@/services/settingsService';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -30,16 +31,19 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const publishedCourses = await courseService.getPublished();
+  const [publishedCourses, settings] = await Promise.all([
+    courseService.getPublished(),
+    settingsService.getSettings()
+  ]);
+  
   const courseTitles = publishedCourses.map(c => c.title);
 
   return (
     <html lang="en" className={`${montserrat.variable} ${poppins.variable}`}>
       <body className="font-sans antialiased text-white bg-obsidian-black selection:bg-maac-gold selection:text-obsidian-black">
-        <EnquiryProvider initialCourses={courseTitles}>
+        <EnquiryProvider initialCourses={courseTitles} contactPhone={settings.contactPhone}>
           <div className="noise-overlay" />
           <Navbar />
-          <PopupManager />
           <GlobalAdPopup />
           <EnquiryModal />
           <main className="relative">

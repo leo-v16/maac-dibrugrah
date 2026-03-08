@@ -48,7 +48,7 @@ export default function Navbar() {
           <img 
             src={BRAND_ASSETS.LOGO} 
             alt="MAAC Dibrugarh Logo" 
-            className="h-12 w-auto transition-transform group-hover:scale-105"
+            className="h-16 w-auto transition-transform group-hover:scale-105"
           />
         </Link>
 

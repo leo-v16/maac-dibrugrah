@@ -5,7 +5,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import Link from 'next/link';
-import { LayoutDashboard, FileText, Users, LogOut, ExternalLink, Menu, X } from 'lucide-react';
+import { LayoutDashboard, FileText, Users, LogOut, ExternalLink, Menu, X, Settings } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { BRAND_ASSETS } from '@/lib/constants';
 
@@ -42,6 +42,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { icon: FileText, label: 'Student Gallery', href: '/admin/gallery' },
     { icon: LayoutDashboard, label: 'Pop-up Ads', href: '/admin/ads' },
     { icon: Users, label: 'Student Leads', href: '/admin/leads' },
+    { icon: Settings, label: 'Settings', href: '/admin/settings' },
   ];
 
   return (
@@ -49,7 +50,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Mobile Top Bar */}
       <div className="md:hidden flex items-center justify-between p-4 bg-deep-navy border-b border-white/5">
         <Link href="/admin" className="group">
-          <img src={BRAND_ASSETS.LOGO} alt="Logo" className="h-10 w-auto" />
+          <img src={BRAND_ASSETS.LOGO} alt="Logo" className="h-14 w-auto" />
         </Link>
         <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="text-white">
           {isSidebarOpen ? <X /> : <Menu />}
@@ -63,7 +64,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       )}>
         <div className="p-8">
           <Link href="/admin" className="block mb-12">
-            <img src={BRAND_ASSETS.LOGO} alt="MAAC Admin" className="h-10 w-auto" />
+            <img src={BRAND_ASSETS.LOGO} alt="MAAC Admin" className="h-14 w-auto" />
           </Link>
           
           <nav className="space-y-2">
@@ -74,7 +75,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 onClick={() => setIsSidebarOpen(false)}
                 className={cn(
                   "flex items-center gap-3 px-4 py-3 text-sm font-sans tracking-widest uppercase transition-all",
-                  pathname === item.href ? "bg-maac-gold text-obsidian-black font-bold" : "text-white/40 hover:text-white hover:bg-white/5"
+                  (item.href === '/admin' ? pathname === '/admin' : pathname.startsWith(item.href)) 
+                    ? "bg-maac-gold text-obsidian-black font-bold" 
+                    : "text-white/40 hover:text-white hover:bg-white/5"
                 )}
               >
                 <item.icon size={18} />

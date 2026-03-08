@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion';
 import { Award, Users, Camera, Globe } from 'lucide-react';
-import { BRAND_ASSETS } from '@/lib/constants';
 
 const stats = [
   { icon: Award, label: 'Industry Awards', value: '50+' },
@@ -11,9 +10,9 @@ const stats = [
   { icon: Globe, label: 'Alumni Network', value: '1000+' },
 ];
 
-export default function AboutSection() {
+export default function AboutSection({ imageUrl }: { imageUrl: string }) {
   return (
-    <section id="about" className="relative h-screen flex items-center justify-center overflow-hidden bg-deep-navy snap-start">
+    <section id="about" className="relative min-h-[120vh] md:h-screen flex items-center justify-center overflow-hidden bg-deep-navy snap-start py-20 md:py-0">
       <div className="container mx-auto px-6 py-20 flex flex-col md:flex-row items-center gap-16">
         
         {/* Left Content */}
@@ -58,8 +57,8 @@ export default function AboutSection() {
           >
             <div className="w-full h-full overflow-hidden flex items-center justify-center bg-deep-navy">
               <img 
-                src={BRAND_ASSETS.BANNER} 
-                alt="MAAC Dibrugarh Banner" 
+                src={imageUrl} 
+                alt="MAAC Dibrugarh Showcase" 
                 className="w-full h-full object-contain"
               />
             </div>

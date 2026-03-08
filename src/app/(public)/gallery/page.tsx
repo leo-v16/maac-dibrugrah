@@ -3,8 +3,13 @@ import GalleryGrid from '@/components/GalleryGrid';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Student Gallery - MAAC Dibrugarh',
-  description: 'Explore the breathtaking animation, VFX, and digital art created by the talented students of MAAC Dibrugarh.',
+  title: 'Student Masterpieces & VFX Gallery | MAAC Dibrugarh',
+  description: 'A showcase of stunning animation, VFX, and digital art created by the students of MAAC Dibrugarh.',
+  openGraph: {
+    title: 'Student Showcase Gallery | MAAC Dibrugarh',
+    description: 'Explore breathtaking digital art and animation projects.',
+    type: 'website',
+  },
 };
 
 export default async function GalleryPage() {

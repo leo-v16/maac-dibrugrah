@@ -69,7 +69,7 @@ export default function AdminGalleryPage() {
               transition={{ delay: idx * 0.05 }}
               className="bg-deep-navy border border-white/5 group hover:border-maac-gold/30 transition-all flex flex-col"
             >
-              <div className="relative aspect-[3/4] overflow-hidden bg-black">
+              <div className="relative aspect-video overflow-hidden bg-black">
                  <img src={item.thumbnailUrl} alt="" className="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity" />
                  <div className="absolute top-2 right-2 flex gap-2">
                     <button 

@@ -3,6 +3,18 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowRight, Calendar } from 'lucide-react';
+import { parseDriveUrl } from '@/utils/drive';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Creative Insights & VFX Blog | MAAC Dibrugarh',
+  description: 'Stay updated with the latest trends in Animation, VFX, and Digital Arts through our creative insights blog.',
+  openGraph: {
+    title: 'MAAC Dibrugarh Blog | Industry Insights',
+    description: 'Expert articles on the world of VFX, 3D Animation, and Gaming.',
+    type: 'website',
+  },
+};
 
 export default async function BlogsPage() {
   const blogs = await blogService.getAllBlogs();
@@ -27,11 +39,10 @@ export default async function BlogsPage() {
               className="group flex flex-col bg-deep-navy border border-white/5 overflow-hidden"
             >
               <div className="relative aspect-video overflow-hidden">
-                <Image
-                  src={blog.coverImageUrl}
+                <img
+                  src={parseDriveUrl(blog.coverImageUrl)}
                   alt={blog.title}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
               </div>
               <div className="p-8 flex-1 flex flex-col">

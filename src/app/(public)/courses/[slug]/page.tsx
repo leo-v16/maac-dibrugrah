@@ -4,8 +4,26 @@ import { Calendar, Clock, Award, Play, Headphones, ArrowLeft } from 'lucide-reac
 import Link from 'next/link';
 import { cleanHtml } from '@/utils/sanitize';
 import EnquireButton from '@/components/courses/EnquireButton';
+import { Metadata } from 'next';
 
-// Force 100% Static Generation
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const course = await courseService.getBySlug(slug);
+
+  if (!course) return { title: 'Course Not Found' };
+
+  return {
+    title: `${course.title} | MAAC Dibrugarh`,
+    description: course.excerpt,
+    openGraph: {
+      title: course.title,
+      description: course.excerpt,
+      images: [course.thumbnailUrl],
+      type: 'article',
+    },
+  };
+}
+
 export async function generateStaticParams() {
   const courses = await courseService.getPublished();
   return courses.map((course) => ({
@@ -25,8 +43,24 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
     return url?.includes('/video/upload/') || url?.match(/\.(mp4|webm|ogg|mov)$/i);
   };
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Course',
+    name: course.title,
+    description: course.excerpt,
+    provider: {
+      '@type': 'EducationOrganization',
+      name: 'MAAC Dibrugarh',
+      sameAs: 'https://maacdibrugarh.com',
+    },
+  };
+
   return (
     <div className="pt-24 min-h-screen bg-obsidian-black text-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Hero Section (Video or Image) */}
       <section className="w-full aspect-video md:h-[60vh] bg-black relative overflow-hidden">
         {course.videoUrl ? (

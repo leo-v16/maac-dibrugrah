@@ -5,7 +5,6 @@ import { motion } from 'framer-motion';
 import { ChevronRight, Play } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useEnquiryModal } from '@/context/EnquiryContext';
-import { BRAND_ASSETS } from '@/lib/constants';
 import VideoModal from '../VideoModal';
 
 const InteractiveHeroBackground = dynamic(
@@ -13,19 +12,27 @@ const InteractiveHeroBackground = dynamic(
   { ssr: false }
 );
 
-export default function HomeHero() {
+export default function HomeHero({ 
+  showreelUrl,
+  heading,
+  subheading 
+}: { 
+  showreelUrl: string;
+  heading: string;
+  subheading: string;
+}) {
   const { openModal } = useEnquiryModal();
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
 
   return (
-    <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden bg-obsidian-black snap-start">
+    <section id="home" className="relative min-h-[120vh] md:h-screen flex items-center justify-center overflow-hidden bg-obsidian-black snap-start">
       {/* 3D Interactive Background */}
       <InteractiveHeroBackground />
       
       {/* Gradient Overlay for seamless blending with content */}
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-obsidian-black/50 via-transparent to-obsidian-black pointer-events-none" />
 
-      {/* Video Text Clipping - Visual Impact */}
+      {/* Hero Content */}
       <div className="relative z-10 container mx-auto px-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -33,19 +40,18 @@ export default function HomeHero() {
           transition={{ duration: 1, ease: 'easeOut' }}
         >
           <div className="relative inline-block mb-4">
-             <h1 className="text-7xl md:text-9xl font-heading leading-none tracking-tighter text-white mix-blend-difference">
-              VFX<br />
-              <span className="text-maac-gold">STUDIO</span>
+             <h1 className="text-5xl md:text-8xl font-heading leading-tight tracking-tighter text-maac-gold uppercase">
+              {heading}
             </h1>
           </div>
           
-          <p className="text-lg md:text-2xl text-white/60 max-w-2xl mx-auto font-sans mt-8 uppercase tracking-widest">
-            MAAC DIBRUGARH: Master the Art of <span className="text-white">Animation</span>
+          <p className="text-lg md:text-2xl text-white max-w-2xl mx-auto font-heading mt-8 uppercase tracking-[0.3em]">
+            {subheading}
           </p>
 
           <div className="mt-12 flex flex-col md:flex-row items-center justify-center gap-6">
             <button 
-              onClick={openModal}
+              onClick={() => openModal()}
               className="group bg-electric-red text-white px-10 py-4 font-heading uppercase tracking-widest text-lg transition-all hover:pr-8"
             >
               <span className="flex items-center gap-2">
@@ -75,7 +81,7 @@ export default function HomeHero() {
       <VideoModal 
         isOpen={isVideoModalOpen} 
         onClose={() => setIsVideoModalOpen(false)} 
-        videoUrl={BRAND_ASSETS.SHOWREEL_URL} 
+        videoUrl={showreelUrl} 
       />
     </section>
   );

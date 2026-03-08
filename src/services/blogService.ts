@@ -41,11 +41,33 @@ export const blogService = {
     } as Blog;
   },
 
+  async getBlogById(id: string): Promise<Blog | null> {
+    const docRef = doc(db, "blogs", id);
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) return null;
+    const data = docSnap.data();
+    return {
+      id: docSnap.id,
+      ...data,
+      createdAt: data.createdAt?.toDate?.()?.toISOString() || null,
+    } as Blog;
+  },
+
   async createBlog(blog: Omit<Blog, "id" | "createdAt">): Promise<string> {
     const docRef = await addDoc(blogCollection, {
       ...blog,
       createdAt: serverTimestamp(),
     });
     return docRef.id;
+  },
+
+  async updateBlog(id: string, blog: Partial<Blog>): Promise<void> {
+    const docRef = doc(db, "blogs", id);
+    await updateDoc(docRef, blog);
+  },
+
+  async deleteBlog(id: string): Promise<void> {
+    const docRef = doc(db, "blogs", id);
+    await deleteDoc(docRef);
   }
 };

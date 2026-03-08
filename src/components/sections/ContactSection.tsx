@@ -4,10 +4,10 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, CheckCircle2, Instagram, Facebook, Youtube } from 'lucide-react';
 import { leadService } from '@/services/leadService';
-import { CONTACT_INFO } from '@/lib/constants';
 import { useEnquiryModal } from '@/context/EnquiryContext';
+import { SiteSettings } from '@/services/settingsService';
 
-export default function ContactSection() {
+export default function ContactSection({ settings }: { settings: SiteSettings }) {
   const { availableCourses } = useEnquiryModal();
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -43,7 +43,7 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="relative h-screen flex items-center justify-center overflow-hidden bg-obsidian-black snap-start">
+    <section id="contact" className="relative min-h-[120vh] md:h-screen flex items-center justify-center overflow-hidden bg-obsidian-black snap-start py-20 md:py-0">
       <div className="container mx-auto px-6 py-20">
         <div className="flex flex-col md:flex-row gap-16 items-start">
           
@@ -68,7 +68,7 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <h4 className="font-heading text-sm tracking-widest text-white/40 mb-1">Location</h4>
-                    <p className="font-sans text-lg">{CONTACT_INFO.ADDRESS}</p>
+                    <p className="font-sans text-lg">{settings.contactAddress}</p>
                   </div>
                 </div>
                 
@@ -78,7 +78,7 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <h4 className="font-heading text-sm tracking-widest text-white/40 mb-1">Call Us</h4>
-                    <p className="font-sans text-lg">{CONTACT_INFO.PHONE}</p>
+                    <p className="font-sans text-lg">{settings.contactPhone}</p>
                   </div>
                 </div>
                 
@@ -88,7 +88,7 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <h4 className="font-heading text-sm tracking-widest text-white/40 mb-1">Email</h4>
-                    <p className="font-sans text-lg">{CONTACT_INFO.EMAIL}</p>
+                    <p className="font-sans text-lg">{settings.contactEmail}</p>
                   </div>
                 </div>
               </div>
@@ -97,13 +97,13 @@ export default function ContactSection() {
               <div className="space-y-4">
                 <h4 className="font-heading text-sm tracking-widest text-white/40 uppercase">Follow Our Studio</h4>
                 <div className="flex gap-4">
-                  <a href={CONTACT_INFO.INSTAGRAM} target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-deep-navy border border-white/5 flex items-center justify-center text-white/40 hover:text-maac-gold hover:border-maac-gold/30 transition-all">
+                  <a href={settings.instagramUrl} target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-deep-navy border border-white/5 flex items-center justify-center text-white/40 hover:text-maac-gold hover:border-maac-gold/30 transition-all">
                     <Instagram size={20} />
                   </a>
-                  <a href={CONTACT_INFO.FACEBOOK} target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-deep-navy border border-white/5 flex items-center justify-center text-white/40 hover:text-maac-gold hover:border-maac-gold/30 transition-all">
+                  <a href={settings.facebookUrl} target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-deep-navy border border-white/5 flex items-center justify-center text-white/40 hover:text-maac-gold hover:border-maac-gold/30 transition-all">
                     <Facebook size={20} />
                   </a>
-                  <a href={CONTACT_INFO.YOUTUBE} target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-deep-navy border border-white/5 flex items-center justify-center text-white/40 hover:text-maac-gold hover:border-maac-gold/30 transition-all">
+                  <a href={settings.youtubeUrl} target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-deep-navy border border-white/5 flex items-center justify-center text-white/40 hover:text-maac-gold hover:border-maac-gold/30 transition-all">
                     <Youtube size={20} />
                   </a>
                 </div>
@@ -142,7 +142,7 @@ export default function ContactSection() {
                 className="space-y-6 relative z-10"
                 onSubmit={handleSubmit}
               >
-                <h3 className="text-2xl font-heading mb-8">Quick Enquiry</h3>
+                <h3 className="text-2xl font-heading mb-8 uppercase">Quick Enquiry</h3>
                 
                 <div className="space-y-4">
                   <input 
@@ -170,7 +170,7 @@ export default function ContactSection() {
                       required
                       value={formData.phone}
                       onChange={handleChange}
-                      placeholder={`e.g., ${CONTACT_INFO.PHONE}`}
+                      placeholder="e.g., +91 9876543210"
                       className="w-full bg-obsidian-black border border-white/10 p-4 font-sans text-white focus:outline-none focus:border-maac-gold transition-colors"
                     />
                   </div>

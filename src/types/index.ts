@@ -14,6 +14,8 @@ export interface Ad {
   mediaUrl: string;
   targetLink: string;
   isActive: boolean;
+  targetPages: string[];
+  delaySeconds: number;
   createdAt: any;
 }
 

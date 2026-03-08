@@ -11,12 +11,12 @@ export default function GalleryCard({ item }: { item: GalleryItem }) {
 
   return (
     <div 
-      className="bg-[#161B22] rounded-xl overflow-hidden border border-white/5 transition-all duration-300 hover:border-maac-gold/30 hover:shadow-2xl hover:shadow-maac-gold/5"
+      className="bg-[#161B22] overflow-hidden border border-white/5 transition-all duration-300 hover:border-maac-gold/30 hover:shadow-2xl hover:shadow-maac-gold/5"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Media Area */}
-      <div className="relative aspect-[3/4] overflow-hidden bg-black flex items-center justify-center">
+      <div className="relative aspect-video overflow-hidden bg-black flex items-center justify-center">
         {item.mediaType === 'image' ? (
           <img 
             src={parsedThumbnail} 

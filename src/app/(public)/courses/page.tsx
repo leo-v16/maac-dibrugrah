@@ -1,5 +1,17 @@
 import { courseService } from '@/services/courseService';
 import CourseGrid from '@/components/sections/CourseGrid';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: '3D Animation & VFX Courses | MAAC Dibrugarh',
+  description: 'Explore our professional career programs in 3D Animation, VFX, Game Design, and Digital Arts at MAAC Dibrugarh.',
+  keywords: ['3D Animation', 'VFX', 'Game Design', 'MAAC Dibrugarh', 'Animation Institute Assam'],
+  openGraph: {
+    title: 'Professional Animation & VFX Courses | MAAC Dibrugarh',
+    description: 'Master the art of visual storytelling with our industry-certified courses.',
+    type: 'website',
+  },
+};
 
 export default async function CoursesPage() {
   const courses = await courseService.getPublished();

@@ -39,7 +39,7 @@ export default function CoursesSection({ courses }: { courses: Course[] }) {
   }, []);
 
   return (
-    <section id="courses" className="relative h-screen flex items-center justify-center overflow-hidden bg-obsidian-black snap-start">
+    <section id="courses" className="relative min-h-[120vh] md:h-screen flex items-center justify-center overflow-hidden bg-obsidian-black snap-start py-20 md:py-0">
       <div className="container mx-auto px-6 py-20" ref={containerRef}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
