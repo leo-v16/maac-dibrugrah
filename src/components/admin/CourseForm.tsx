@@ -36,11 +36,12 @@ export default function CourseForm({ initialData, id }: CourseFormProps) {
 
     setLoading(true);
     try {
+      const preset = process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_COURSES as string;
       // Upload media if changed
       const [thumbnailUrl, videoUrl, audioUrl] = await Promise.all([
-        thumbnail ? uploadMedia(thumbnail) : Promise.resolve(initialData?.thumbnailUrl || ""),
-        video ? uploadMedia(video) : Promise.resolve(initialData?.videoUrl || ""),
-        audio ? uploadMedia(audio) : Promise.resolve(initialData?.audioUrl || "")
+        thumbnail ? uploadMedia(thumbnail, preset) : Promise.resolve(initialData?.thumbnailUrl || ""),
+        video ? uploadMedia(video, preset) : Promise.resolve(initialData?.videoUrl || ""),
+        audio ? uploadMedia(audio, preset) : Promise.resolve(initialData?.audioUrl || "")
       ]);
 
       const slug = formData.title

@@ -1,72 +1,51 @@
 import { 
   collection, 
   getDocs, 
-  getDoc, 
   doc, 
   addDoc, 
-  updateDoc, 
-  deleteDoc, 
   query, 
   where, 
   orderBy, 
-  serverTimestamp 
+  serverTimestamp,
+  getDoc
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { BlogPost } from "@/types";
+import { Blog } from "@/types";
 
-const blogCollection = collection(db, "posts");
+const blogCollection = collection(db, "blogs");
 
 export const blogService = {
-  async getPublishedPosts(): Promise<BlogPost[]> {
-    const q = query(
-      blogCollection, 
-      where("published", "==", true), 
-      orderBy("createdAt", "desc")
-    );
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as BlogPost));
-  },
-
-  async getAllPosts(): Promise<BlogPost[]> {
+  async getAllBlogs(): Promise<Blog[]> {
     const q = query(blogCollection, orderBy("createdAt", "desc"));
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as BlogPost));
+    return querySnapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        ...data,
+        createdAt: data.createdAt?.toDate?.()?.toISOString() || null,
+      } as Blog;
+    });
   },
 
-  async getPostById(id: string): Promise<BlogPost | null> {
-    const docRef = doc(db, "posts", id);
-    const docSnap = await getDoc(docRef);
-    if (!docSnap.exists()) return null;
-    return { id: docSnap.id, ...docSnap.data() } as BlogPost;
-  },
-
-  async getPostBySlug(slug: string): Promise<BlogPost | null> {
+  async getBlogBySlug(slug: string): Promise<Blog | null> {
     const q = query(blogCollection, where("slug", "==", slug));
     const querySnapshot = await getDocs(q);
     if (querySnapshot.empty) return null;
     const docData = querySnapshot.docs[0];
-    return { id: docData.id, ...docData.data() } as BlogPost;
+    const data = docData.data();
+    return {
+      id: docData.id,
+      ...data,
+      createdAt: data.createdAt?.toDate?.()?.toISOString() || null,
+    } as Blog;
   },
 
-  async createPost(post: Omit<BlogPost, "id" | "createdAt" | "updatedAt">): Promise<string> {
+  async createBlog(blog: Omit<Blog, "id" | "createdAt">): Promise<string> {
     const docRef = await addDoc(blogCollection, {
-      ...post,
+      ...blog,
       createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp(),
     });
     return docRef.id;
-  },
-
-  async updatePost(id: string, post: Partial<BlogPost>): Promise<void> {
-    const docRef = doc(db, "posts", id);
-    await updateDoc(docRef, {
-      ...post,
-      updatedAt: serverTimestamp(),
-    });
-  },
-
-  async deletePost(id: string): Promise<void> {
-    const docRef = doc(db, "posts", id);
-    await deleteDoc(docRef);
   }
 };

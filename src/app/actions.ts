@@ -8,11 +8,22 @@ export async function revalidateCourses(slug?: string) {
   if (slug) {
     revalidatePath(`/courses/${slug}`);
   }
-  // Also revalidate the dynamic route pattern
   revalidatePath('/courses/[slug]', 'page');
 }
 
 export async function revalidateGallery() {
   revalidatePath('/');
   revalidatePath('/gallery');
+}
+
+export async function revalidateBlogs(slug?: string) {
+  revalidatePath('/blog');
+  if (slug) {
+    revalidatePath(`/blog/${slug}`);
+  }
+  revalidatePath('/blog/[slug]', 'page');
+}
+
+export async function revalidateAll() {
+  revalidatePath('/', 'layout');
 }

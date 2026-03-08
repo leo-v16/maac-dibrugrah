@@ -37,11 +37,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   const menuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', href: '/admin' },
-    { icon: FileText, label: 'Blog Posts', href: '/admin/posts' },
+    { icon: FileText, label: 'Blog Posts', href: '/admin/blogs' },
     { icon: LayoutDashboard, label: 'Courses', href: '/admin/courses' },
     { icon: FileText, label: 'Student Gallery', href: '/admin/gallery' },
+    { icon: LayoutDashboard, label: 'Pop-up Ads', href: '/admin/ads' },
     { icon: Users, label: 'Student Leads', href: '/admin/leads' },
-    { icon: LayoutDashboard, label: 'Popups', href: '/admin/popups' },
   ];
 
   return (

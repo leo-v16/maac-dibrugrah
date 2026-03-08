@@ -16,7 +16,7 @@ export default function GalleryCard({ item }: { item: GalleryItem }) {
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Media Area */}
-      <div className="relative aspect-video overflow-hidden bg-black flex items-center justify-center">
+      <div className="relative aspect-[3/4] overflow-hidden bg-black flex items-center justify-center">
         {item.mediaType === 'image' ? (
           <img 
             src={parsedThumbnail} 

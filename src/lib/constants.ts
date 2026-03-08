@@ -1,6 +1,7 @@
 export const BRAND_ASSETS = {
   LOGO: '/maac-dibrugarh-logo-transparent.webp',
   BANNER: '/maac-dibrugarh-banner-436KB.webp',
+  SHOWREEL_URL: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Replace with real MAAC showreel
 };
 
 export const CONTACT_INFO = {

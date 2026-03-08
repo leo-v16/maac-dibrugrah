@@ -1,9 +1,12 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Play } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useEnquiryModal } from '@/context/EnquiryContext';
+import { BRAND_ASSETS } from '@/lib/constants';
+import VideoModal from '../VideoModal';
 
 const InteractiveHeroBackground = dynamic(
   () => import('@/components/3d/InteractiveHeroBackground'),
@@ -12,6 +15,7 @@ const InteractiveHeroBackground = dynamic(
 
 export default function HomeHero() {
   const { openModal } = useEnquiryModal();
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
 
   return (
     <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden bg-obsidian-black snap-start">
@@ -48,8 +52,11 @@ export default function HomeHero() {
                 Explore Courses <ChevronRight className="transition-transform group-hover:translate-x-2" />
               </span>
             </button>
-            <button className="border border-white/20 hover:border-maac-gold hover:text-maac-gold text-white px-10 py-4 font-heading uppercase tracking-widest text-lg transition-all">
-              Watch Reel
+            <button 
+              onClick={() => setIsVideoModalOpen(true)}
+              className="group border border-white/20 hover:border-maac-gold hover:text-maac-gold text-white px-10 py-4 font-heading uppercase tracking-widest text-lg transition-all flex items-center gap-3"
+            >
+              <Play size={18} className="transition-transform group-hover:scale-110" /> Watch Reel
             </button>
           </div>
         </motion.div>
@@ -63,6 +70,13 @@ export default function HomeHero() {
       >
         <div className="w-px h-16 bg-gradient-to-b from-maac-gold/0 via-maac-gold to-maac-gold/0 mx-auto" />
       </motion.div>
+
+      {/* Video Modal */}
+      <VideoModal 
+        isOpen={isVideoModalOpen} 
+        onClose={() => setIsVideoModalOpen(false)} 
+        videoUrl={BRAND_ASSETS.SHOWREEL_URL} 
+      />
     </section>
   );
 }

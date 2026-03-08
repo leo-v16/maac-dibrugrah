@@ -3,6 +3,7 @@ import { Montserrat, Poppins } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/layout/Navbar';
 import PopupManager from '@/components/layout/PopupManager';
+import GlobalAdPopup from '@/components/GlobalAdPopup';
 import EnquiryModal from '@/components/layout/EnquiryModal';
 import { EnquiryProvider } from '@/context/EnquiryContext';
 import { courseService } from '@/services/courseService';
@@ -39,6 +40,7 @@ export default async function RootLayout({
           <div className="noise-overlay" />
           <Navbar />
           <PopupManager />
+          <GlobalAdPopup />
           <EnquiryModal />
           <main className="relative">
             {children}
