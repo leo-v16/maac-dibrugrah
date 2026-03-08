@@ -67,7 +67,7 @@ export default function Navbar() {
             </Link>
           ))}
           <button 
-            onClick={openModal}
+            onClick={() => openModal()}
             className="bg-electric-red hover:bg-electric-red/90 text-white px-6 py-2 text-sm uppercase tracking-widest font-bold transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
           >
             Enquire Now <ChevronRight size={16} />

@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Montserrat, Poppins } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/layout/Navbar';
-import PopupManager from '@/components/layout/PopupManager';
 import GlobalAdPopup from '@/components/GlobalAdPopup';
 import EnquiryModal from '@/components/layout/EnquiryModal';
 import { EnquiryProvider } from '@/context/EnquiryContext';
