@@ -11,13 +11,13 @@ import { settingsService } from '@/services/settingsService';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
-  weight: ['700'],
+  weight: ['700', '800', '900'],
   variable: '--font-montserrat',
 });
 
 const poppins = Poppins({
   subsets: ['latin'],
-  weight: ['400', '500', '600'],
+  weight: ['400', '500', '600', '700', '800', '900'],
   variable: '--font-poppins',
 });
 

@@ -11,23 +11,26 @@ export default function MapSection({
   operatingHours: string;
 }) {
   return (
-    <section id="location" className="relative min-h-[120vh] md:h-screen flex items-center justify-center overflow-hidden bg-deep-navy snap-start py-20 md:py-0">
-      <div className="container mx-auto px-6 py-20 flex flex-col h-full">
+    <section id="location" className="relative h-screen w-full flex items-center justify-center bg-deep-navy snap-start overflow-hidden">
+      <div className="container mx-auto px-6 py-12 flex flex-col h-full max-h-screen">
+        
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
+          className="text-center mb-6 shrink-0"
         >
-          <h2 className="text-4xl md:text-5xl font-heading mb-4 uppercase">
+          <h2 className="text-3xl md:text-5xl font-heading mb-2 uppercase">
             Visit Our <span className="text-maac-gold">Academy</span>
           </h2>
-          <p className="text-white/40 font-sans tracking-widest uppercase text-sm flex items-center justify-center gap-2">
-            <MapPin size={14} className="text-maac-gold" /> {address}
+          <p className="text-white/40 font-sans tracking-widest uppercase text-[10px] md:text-xs flex items-center justify-center gap-2">
+            <MapPin size={12} className="text-maac-gold" /> {address}
           </p>
         </motion.div>
 
+        {/* Map Container */}
         <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.98 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
           className="flex-1 w-full bg-obsidian-black border border-white/10 overflow-hidden shadow-2xl relative"
@@ -42,16 +45,18 @@ export default function MapSection({
             referrerPolicy="no-referrer-when-downgrade"
           ></iframe>
           
-          {/* Overlay styling */}
-          <div className="absolute inset-0 pointer-events-none border-[20px] border-deep-navy opacity-50" />
+          {/* Overlay styling for studio feel */}
+          <div className="absolute inset-0 pointer-events-none border-[10px] md:border-[20px] border-deep-navy opacity-40" />
         </motion.div>
         
-        <div className="mt-12 text-center">
-           <div className="inline-block px-8 py-4 bg-obsidian-black border border-white/5 rounded-sm">
-              <h4 className="text-maac-gold font-heading text-sm uppercase tracking-widest mb-1">Operating Hours</h4>
-              <p className="text-white/60 font-sans text-sm tracking-wide">{operatingHours}</p>
+        {/* Footer Info */}
+        <div className="mt-6 text-center shrink-0">
+           <div className="inline-block px-6 py-3 bg-obsidian-black border border-white/5 rounded-sm">
+              <h4 className="text-maac-gold font-heading text-[10px] md:text-xs uppercase tracking-widest mb-1">Operating Hours</h4>
+              <p className="text-white/60 font-sans text-[10px] md:text-sm tracking-wide">{operatingHours}</p>
            </div>
         </div>
+
       </div>
     </section>
   );

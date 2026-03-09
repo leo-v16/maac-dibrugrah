@@ -30,7 +30,7 @@ export default async function Home() {
   const topCourses = allCourses.slice(0, 3);
 
   return (
-    <div className="h-screen overflow-y-auto snap-y snap-proximity scroll-smooth">
+    <div className="h-screen overflow-y-auto snap-y snap-mandatory scroll-smooth">
       <HomeHero 
         showreelUrl={settings.showreelUrl} 
         heading={settings.heroHeading}

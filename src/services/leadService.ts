@@ -17,7 +17,14 @@ export const leadService = {
   async getAllLeads(): Promise<StudentLead[]> {
     const q = query(leadCollection, orderBy("createdAt", "desc"));
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as StudentLead));
+    return querySnapshot.docs.map(doc => {
+      const data = doc.data();
+      return { 
+        id: doc.id, 
+        ...data,
+        createdAt: data.createdAt?.toDate?.()?.toISOString() || null,
+      } as StudentLead;
+    });
   },
 
   async createLead(lead: Omit<StudentLead, "id" | "createdAt">): Promise<string> {

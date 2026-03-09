@@ -1,16 +1,20 @@
 import AboutSection from '@/components/sections/AboutSection';
+import WhyChooseSection from '@/components/sections/WhyChooseSection';
 import { settingsService } from '@/services/settingsService';
 
 export default async function AboutPage() {
   const settings = await settingsService.getSettings();
 
   return (
-    <div className="pt-24 min-h-screen bg-obsidian-black">
+    <div className="pt-20 min-h-screen bg-obsidian-black">
       {/* Introduction Section (Visual Component) */}
-      <AboutSection imageUrl={settings.aboutImageUrl} />
+      <AboutSection imageUrl={settings.aboutImageUrl} isAboutPage={true} />
+      
+      {/* Why Choose Section */}
+      <WhyChooseSection />
       
       {/* Detailed Mission and History */}
-      <section className="py-32 border-t border-deep-navy relative overflow-hidden bg-deep-navy">
+      <section className="pb-32 relative overflow-hidden bg-deep-navy">
         {/* Background glow */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-maac-gold/5 blur-[120px] rounded-full" />
         

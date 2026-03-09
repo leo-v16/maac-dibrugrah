@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 
 interface WildIntroTextProps {
   text: string;
@@ -12,7 +12,7 @@ export default function WildIntroText({ text, highlightedWord }: WildIntroTextPr
   // Split text into words
   const words = text.split(' ');
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -23,7 +23,7 @@ export default function WildIntroText({ text, highlightedWord }: WildIntroTextPr
     },
   };
 
-  const childVariants = {
+  const childVariants: Variants = {
     hidden: { 
       opacity: 0, 
       y: 50,

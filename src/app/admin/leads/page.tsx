@@ -64,7 +64,7 @@ export default function AdminLeadsPage() {
                   className="border-b border-white/5 hover:bg-white/[0.02] transition-colors group"
                 >
                   <td className="px-6 py-6 text-white/30 text-xs">
-                    {lead.createdAt?.toDate?.()?.toLocaleDateString() || 'Recently'}
+                    {lead.createdAt ? new Date(lead.createdAt).toLocaleDateString() : 'Recently'}
                   </td>
                   <td className="px-6 py-6">
                     <div className="flex items-center gap-3">

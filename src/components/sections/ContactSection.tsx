@@ -42,9 +42,9 @@ export default function ContactSection({ settings }: { settings: SiteSettings })
   };
 
   return (
-    <section id="contact" className="relative min-h-[120vh] md:h-screen flex items-center justify-center overflow-hidden bg-obsidian-black snap-start py-20 md:py-0">
+    <section id="contact" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-obsidian-black snap-start py-20 md:py-0">
       <div className="container mx-auto px-6 py-20">
-        <div className="flex flex-col md:flex-row gap-16 items-start">
+        <div className="flex flex-col md:flex-row gap-16 items-center">
           
           {/* Contact Details */}
           <div className="flex-1">
@@ -63,7 +63,7 @@ export default function ContactSection({ settings }: { settings: SiteSettings })
               <div className="space-y-8 mb-12">
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-deep-navy border border-white/10 flex items-center justify-center text-maac-gold">
-                    <MapPin size={24} />
+                    <MapPin className="w-12 h-6" />
                   </div>
                   <div>
                     <h4 className="font-heading text-sm tracking-widest text-white/40 mb-1">Location</h4>
@@ -73,7 +73,7 @@ export default function ContactSection({ settings }: { settings: SiteSettings })
                 
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-deep-navy border border-white/10 flex items-center justify-center text-maac-gold">
-                    <Phone size={24} />
+                    <Phone className="w-6 h-6" />
                   </div>
                   <div>
                     <h4 className="font-heading text-sm tracking-widest text-white/40 mb-1">Call Us</h4>
@@ -83,7 +83,7 @@ export default function ContactSection({ settings }: { settings: SiteSettings })
                 
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-deep-navy border border-white/10 flex items-center justify-center text-maac-gold">
-                    <Mail size={24} />
+                    <Mail className="w-6 h-6" />
                   </div>
                   <div>
                     <h4 className="font-heading text-sm tracking-widest text-white/40 mb-1">Email</h4>

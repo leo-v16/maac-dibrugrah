@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { 
   Award, 
   Users, 
@@ -16,6 +16,7 @@ import {
   CalendarDays, 
   FolderKanban 
 } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const features = [
   { label: 'Free Demo Class', icon: MonitorPlay },
@@ -28,11 +29,17 @@ const features = [
   { label: '100% Guaranteed Job Placement Assistance', icon: Award }
 ];
 
-export default function AboutSection({ imageUrl }: { imageUrl: string }) {
+export default function AboutSection({ 
+  imageUrl, 
+  isAboutPage = false 
+}: { 
+  imageUrl: string;
+  isAboutPage?: boolean;
+}) {
   const welcomeText = "Welcome to ";
   const brandName = "MAAC Dibrugarh";
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -43,7 +50,7 @@ export default function AboutSection({ imageUrl }: { imageUrl: string }) {
     },
   };
 
-  const letterVariants = {
+  const letterVariants: Variants = {
     hidden: { opacity: 0, y: 20, filter: 'blur(10px)' },
     visible: {
       opacity: [0, 1, 0, 1], // Flickering "Lightning" effect
@@ -57,8 +64,19 @@ export default function AboutSection({ imageUrl }: { imageUrl: string }) {
   };
 
   return (
-    <section id="about" className="relative min-h-[140vh] md:h-screen flex items-center justify-center overflow-hidden bg-deep-navy snap-start py-24 md:py-0">
-      <div className="container mx-auto px-6 flex flex-col md:flex-row items-start lg:items-center gap-12 lg:gap-16">
+    <section 
+      id="about" 
+      className={cn(
+        "relative min-h-screen flex justify-center overflow-hidden bg-deep-navy snap-start",
+        isAboutPage ? "items-start py-4 md:py-0" : "items-center py-24 md:py-0"
+      )}
+    >
+      <div 
+        className={cn(
+          "container mx-auto px-6 flex flex-col md:flex-row lg:items-center gap-12 lg:gap-16",
+          isAboutPage ? "pt-4 md:pt-8 items-start" : "items-center"
+        )}
+      >
         
         {/* Left Content */}
         <div className="flex-1 min-w-0 w-full text-center md:text-left order-2 md:order-1">
@@ -72,7 +90,7 @@ export default function AboutSection({ imageUrl }: { imageUrl: string }) {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="text-[6.5vw] sm:text-[5.5vw] md:text-4xl lg:text-5xl font-heading mb-4 leading-tight uppercase text-white whitespace-nowrap overflow-visible"
+              className="text-[4.2vw] sm:text-[4vw] md:text-4xl lg:text-5xl font-heading mb-4 leading-tight uppercase text-white whitespace-nowrap overflow-visible"
             >
               {welcomeText.split("").map((char, index) => (
                 <motion.span key={`welcome-${index}`} variants={letterVariants} className="inline-block">
@@ -92,22 +110,22 @@ export default function AboutSection({ imageUrl }: { imageUrl: string }) {
               Best Animation (AVGC) Institute in Assam. Our campus is designed to give you the experience of a professional production studio environment, ensuring students are industry-ready from day one.
             </p>
             
-            <p className="text-white/40 font-sans text-[10px] uppercase tracking-widest mb-6 block text-left">We also Provide:</p>
+            <p className="text-white/40 font-sans text-xs md:text-sm uppercase tracking-widest mb-8 block text-left">We also Provide:</p>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5 text-left">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 text-left">
               {features.map((feature, idx) => (
                 <motion.div 
                   key={feature.label} 
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 + idx * 0.05 }}
-                  className="flex items-center gap-4 group"
+                  className="flex items-center gap-5 group"
                 >
-                  <div className="w-10 h-10 bg-maac-gold/10 border border-maac-gold/20 flex items-center justify-center flex-shrink-0 transition-all group-hover:bg-maac-gold/20 group-hover:scale-110">
-                    <feature.icon size={20} className="text-maac-gold" />
+                  <div className="w-12 h-12 md:w-14 md:h-14 bg-maac-gold/10 border border-maac-gold/20 flex items-center justify-center flex-shrink-0 transition-all group-hover:bg-maac-gold/20 group-hover:scale-110">
+                    <feature.icon size={28} className="text-maac-gold" />
                   </div>
                   <div>
-                    <span className="text-white font-heading text-[10px] uppercase tracking-widest leading-tight block">{feature.label}</span>
+                    <span className="text-white font-heading text-xs md:text-sm lg:text-base uppercase tracking-widest leading-tight block">{feature.label}</span>
                   </div>
                 </motion.div>
               ))}

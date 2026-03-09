@@ -5,10 +5,15 @@ import Link from 'next/link';
 
 export default function EventsPromo() {
   return (
-    <section className="bg-electric-red py-16 lg:py-24 px-6 lg:px-12 relative overflow-hidden snap-start">
+    <section 
+      className="py-16 lg:py-24 px-6 lg:px-12 relative overflow-hidden snap-start min-h-screen flex items-center justify-center"
+      style={{ 
+        background: 'linear-gradient(135deg, #383F4B 0%, #212436 50%, #2D144B 100%)' 
+      }}
+    >
       {/* Decorative background elements */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-black/10 blur-3xl rounded-full translate-y-1/2 -translate-x-1/2" />
+      <div className="absolute top-0 right-0 w-64 h-64 bg-maac-gold/5 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-royal-blue/5 blur-3xl rounded-full translate-y-1/2 -translate-x-1/2" />
 
       <div className="container mx-auto max-w-7xl relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">

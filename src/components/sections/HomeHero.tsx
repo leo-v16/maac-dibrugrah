@@ -25,7 +25,7 @@ export default function HomeHero({
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
 
   return (
-    <section id="home" className="relative min-h-[120vh] md:h-screen flex items-center justify-center overflow-hidden bg-obsidian-black snap-start">
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-obsidian-black snap-start">
       {/* 3D Interactive Background */}
       <InteractiveHeroBackground />
       
@@ -33,16 +33,16 @@ export default function HomeHero({
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-obsidian-black/50 via-transparent to-obsidian-black pointer-events-none" />
 
       {/* Hero Content */}
-      <div className="relative z-10 container mx-auto px-6 text-center">
+      <div className="relative z-10 container mx-auto px-6 text-center pt-32 md:pt-40">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: 'easeOut' }}
           className="flex flex-col items-center"
         >
-          {/* Eyebrow Pill */}
-          <div className="inline-block bg-maac-gold/10 border border-maac-gold/20 rounded-full px-4 py-1 mb-8">
-            <span className="text-maac-gold text-[10px] font-heading uppercase tracking-[0.3em]">
+          {/* Eyebrow Label */}
+          <div className="mb-4">
+            <span className="text-maac-gold text-xs font-heading uppercase tracking-[0.3em]">
               Best Animation Academy
             </span>
           </div>

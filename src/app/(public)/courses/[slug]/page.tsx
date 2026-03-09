@@ -167,14 +167,8 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                     Start your journey in the world of High-End Animation and VFX with MAAC Dibrugarh.
                   </p>
                   <EnquireButton courseTitle={course.title} />
-                  <div className="mt-6 flex items-center justify-center gap-4 text-[10px] uppercase tracking-widest text-white/20">
-                    <span>EMI Available</span>
-                    <span>•</span>
-                    <span>100% Placement Support</span>
                   </div>
-               </div>
-            </aside>
-
+                  </aside>
           </div>
         </div>
       </div>
