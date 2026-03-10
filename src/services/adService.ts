@@ -13,11 +13,12 @@ import {
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { Ad } from "@/types";
+import { cache } from "react";
 
 const adCollection = collection(db, "ads");
 
 export const adService = {
-  async getActiveAds(): Promise<Ad[]> {
+  getActiveAds: cache(async (): Promise<Ad[]> => {
     const q = query(
       adCollection, 
       where("isActive", "==", true), 
@@ -34,9 +35,9 @@ export const adService = {
         createdAt: data.createdAt?.toDate?.()?.toISOString() || null,
       } as Ad;
     });
-  },
+  }),
 
-  async getAdById(id: string): Promise<Ad | null> {
+  getAdById: cache(async (id: string): Promise<Ad | null> => {
     const docRef = doc(db, "ads", id);
     const docSnap = await getDoc(docRef);
     if (!docSnap.exists()) return null;
@@ -48,9 +49,9 @@ export const adService = {
       delaySeconds: data.delaySeconds ?? 3,
       createdAt: data.createdAt?.toDate?.()?.toISOString() || null,
     } as Ad;
-  },
+  }),
 
-  async getAllAds(): Promise<Ad[]> {
+  getAllAds: cache(async (): Promise<Ad[]> => {
     const querySnapshot = await getDocs(adCollection);
     const ads = querySnapshot.docs.map(doc => {
       const data = doc.data();
@@ -67,7 +68,7 @@ export const adService = {
       const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
       return dateB - dateA;
     });
-  },
+  }),
 
   async createAd(ad: Omit<Ad, "id" | "createdAt">): Promise<string> {
     const docRef = await addDoc(adCollection, {

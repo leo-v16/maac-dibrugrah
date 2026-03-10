@@ -78,6 +78,7 @@ export default function CoursesSection({ courses }: { courses: Course[] }) {
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
+            className="w-full flex justify-center md:w-auto md:block"
           >
             <Link 
               href="/courses"

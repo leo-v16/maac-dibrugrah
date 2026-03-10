@@ -13,11 +13,12 @@ import {
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { Course } from "@/types";
+import { cache } from "react";
 
 const courseCollection = collection(db, "courses");
 
 export const courseService = {
-  async getPublished(): Promise<Course[]> {
+  getPublished: cache(async (): Promise<Course[]> => {
     const q = query(
       courseCollection,
       where("status", "==", "published"),
@@ -32,9 +33,9 @@ export const courseService = {
         createdAt: data.createdAt?.toDate?.()?.toISOString() || null,
       } as Course;
     });
-  },
+  }),
 
-  async getBySlug(slug: string): Promise<Course | null> {
+  getBySlug: cache(async (slug: string): Promise<Course | null> => {
     const q = query(courseCollection, where("slug", "==", slug));
     const querySnapshot = await getDocs(q);
     if (querySnapshot.empty) return null;
@@ -45,9 +46,9 @@ export const courseService = {
       ...data,
       createdAt: data.createdAt?.toDate?.()?.toISOString() || null,
     } as Course;
-  },
+  }),
 
-  async getAll(): Promise<Course[]> {
+  getAll: cache(async (): Promise<Course[]> => {
     const q = query(courseCollection, orderBy("createdAt", "desc"));
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map(doc => {
@@ -58,9 +59,9 @@ export const courseService = {
         createdAt: data.createdAt?.toDate?.()?.toISOString() || null,
       } as Course;
     });
-  },
+  }),
 
-  async getById(id: string): Promise<Course | null> {
+  getById: cache(async (id: string): Promise<Course | null> => {
     const docRef = doc(db, "courses", id);
     const docSnap = await getDoc(docRef);
     if (!docSnap.exists()) return null;
@@ -70,7 +71,7 @@ export const courseService = {
       ...data,
       createdAt: data.createdAt?.toDate?.()?.toISOString() || null,
     } as Course;
-  },
+  }),
 
   async create(data: Omit<Course, "id" | "createdAt">): Promise<string> {
     const docRef = await addDoc(courseCollection, {

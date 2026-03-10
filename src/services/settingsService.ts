@@ -5,6 +5,7 @@ import {
   serverTimestamp 
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { cache } from "react";
 
 export interface SiteSettings {
   showreelUrl: string;
@@ -37,7 +38,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
 };
 
 export const settingsService = {
-  async getSettings(): Promise<SiteSettings> {
+  getSettings: cache(async (): Promise<SiteSettings> => {
     const docRef = doc(db, "settings", "global");
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
@@ -47,7 +48,7 @@ export const settingsService = {
       return { ...DEFAULT_SETTINGS, ...cleanData } as SiteSettings;
     }
     return DEFAULT_SETTINGS;
-  },
+  }),
 
   async updateSettings(settings: Partial<SiteSettings>): Promise<void> {
     const docRef = doc(db, "settings", "global");

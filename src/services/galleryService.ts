@@ -10,11 +10,12 @@ import {
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { GalleryItem } from "@/types";
+import { cache } from "react";
 
 const galleryCollection = collection(db, "student_gallery");
 
 export const galleryService = {
-  async getAllItems(): Promise<GalleryItem[]> {
+  getAllItems: cache(async (): Promise<GalleryItem[]> => {
     const q = query(galleryCollection, orderBy("createdAt", "desc"));
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map(doc => {
@@ -25,7 +26,7 @@ export const galleryService = {
         createdAt: data.createdAt?.toDate?.()?.toISOString() || null,
       } as GalleryItem;
     });
-  },
+  }),
 
   async createItem(item: Omit<GalleryItem, "id" | "createdAt">): Promise<string> {
     const docRef = await addDoc(galleryCollection, {
