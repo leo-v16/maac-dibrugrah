@@ -18,6 +18,7 @@ export interface SiteSettings {
   facebookUrl: string;
   youtubeUrl: string;
   linkedinUrl: string;
+  whatsappUrl: string;
   aboutImageUrl: string;
   operatingHours: string;
 }
@@ -33,6 +34,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
   facebookUrl: 'https://www.facebook.com/share/1G5JQy51fx/',
   youtubeUrl: 'https://youtube.com/@maacdibrugarh?si=DEPzX9NSU410y1SQ',
   linkedinUrl: 'https://www.linkedin.com/company/maac-dibrugarh/',
+  whatsappUrl: 'https://wa.me/918638211893',
   aboutImageUrl: '/maac-dibrugarh-banner-436KB.webp',
   operatingHours: 'Mon - Sat: 10:00 AM - 7:00 PM',
 };

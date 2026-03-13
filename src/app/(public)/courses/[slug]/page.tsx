@@ -89,7 +89,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
             className="w-full h-full object-cover opacity-40"
           />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-obsidian-black via-obsidian-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-obsidian-black via-obsidian-black/20 to-transparent" />
         
         {/* All Courses Back Button */}
         <div className="absolute top-8 left-8 z-20">
