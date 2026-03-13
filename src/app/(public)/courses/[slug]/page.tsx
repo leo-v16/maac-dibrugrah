@@ -158,7 +158,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
               */}
               <div 
                 className="prose prose-invert prose-xl max-w-none font-sans text-white/70 leading-relaxed selection:bg-maac-gold selection:text-obsidian-black"
-                dangerouslySetInnerHTML={{ __html: cleanHtml(course.content) }}
+                dangerouslySetInnerHTML={{ __html: await cleanHtml(course.content) }}
               />
 
               {course.audioUrl && (

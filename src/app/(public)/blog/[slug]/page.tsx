@@ -110,7 +110,7 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
             className="prose prose-invert prose-lg max-w-none font-sans text-white/70 leading-relaxed selection:bg-maac-gold selection:text-obsidian-black
               prose-headings:font-heading prose-headings:uppercase prose-headings:tracking-wide
               prose-a:text-maac-gold hover:prose-a:text-white transition-colors"
-            dangerouslySetInnerHTML={{ __html: cleanHtml(blog.content) }}
+            dangerouslySetInnerHTML={{ __html: await cleanHtml(blog.content) }}
           />
           
           <footer className="mt-20 pt-10 border-t border-white/5">
