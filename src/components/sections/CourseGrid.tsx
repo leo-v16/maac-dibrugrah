@@ -3,9 +3,10 @@
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Play, Award } from 'lucide-react';
+import { ArrowRight, Play, Award, Clock } from 'lucide-react';
 import { Course } from '@/types';
 import { MouseEvent } from 'react';
+import { useEnquiryModal } from '@/context/EnquiryContext';
 
 export default function CourseGrid({ courses }: { courses: Course[] }) {
   const isVideo = (url: string): boolean => {
@@ -22,6 +23,7 @@ export default function CourseGrid({ courses }: { courses: Course[] }) {
 }
 
 function CourseCard({ course, idx, isVideoFunc }: { course: Course, idx: number, isVideoFunc: (url: string) => boolean }) {
+  const { openModal } = useEnquiryModal();
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -31,7 +33,7 @@ function CourseCard({ course, idx, isVideoFunc }: { course: Course, idx: number,
     mouseY.set(clientY - top);
   }
 
-  const spotlightStyle = useMotionTemplate`radial-gradient(600px circle at ${mouseX}px ${mouseY}px, rgba(255, 215, 0, 0.08), transparent 80%)`;
+  const spotlightStyle = useMotionTemplate`radial-gradient(600px circle at ${mouseX}px ${mouseY}px, rgba(255, 215, 0, 0.1), transparent 80%)`;
 
   return (
     <motion.div
@@ -40,16 +42,16 @@ function CourseCard({ course, idx, isVideoFunc }: { course: Course, idx: number,
       viewport={{ once: true }}
       transition={{ delay: idx * 0.1, duration: 0.8 }}
       onMouseMove={handleMouseMove}
-      className="group relative bg-deep-navy border border-white/5 overflow-hidden flex flex-col hover:border-maac-gold/30 transition-colors duration-500 spotlight-card"
+      className="group relative bg-[#161B22] rounded-[24px] p-[20px] border border-white/5 overflow-hidden flex flex-col hover:border-maac-gold/30 transition-all duration-500 spotlight-card shadow-xl hover:shadow-maac-gold/5"
     >
       {/* Interactive Spotlight Layer */}
       <motion.div 
-        className="pointer-events-none absolute -inset-px z-10 opacity-0 group-hover:opacity-100 transition duration-300"
+        className="pointer-events-none absolute -inset-px z-10 opacity-0 group-hover:opacity-100 transition duration-300 rounded-[24px]"
         style={{ background: spotlightStyle }}
       />
 
-      {/* Course Thumbnail */}
-      <div className="relative aspect-video overflow-hidden bg-black">
+      {/* Header: Media Area */}
+      <div className="relative aspect-video rounded-[18px] overflow-hidden bg-black mb-6">
         {isVideoFunc(course.thumbnailUrl) ? (
           <video
             src={course.thumbnailUrl}
@@ -68,40 +70,64 @@ function CourseCard({ course, idx, isVideoFunc }: { course: Course, idx: number,
           />
         )}
         
-        {/* Floating Tag */}
-        <div className="absolute top-4 right-4 bg-obsidian-black/80 backdrop-blur px-3 py-1 text-[10px] font-heading uppercase tracking-widest text-maac-gold border border-maac-gold/20 z-20 group-hover:bg-maac-gold group-hover:text-obsidian-black transition-all">
-          {course.duration}
+        {/* Glassmorphism Badge */}
+        <div className="absolute top-3 left-3 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-1.5 rounded-full z-20 max-w-[80%]">
+          <span className="text-[9px] font-heading uppercase tracking-widest text-white flex items-center gap-2 truncate">
+            <div className="w-1.5 h-1.5 bg-maac-gold rounded-full animate-pulse flex-shrink-0" />
+            {course.title}
+          </span>
         </div>
 
         {/* Play/Award Overlay */}
-        <div className="absolute inset-0 bg-obsidian-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
-          <div className="w-12 h-12 rounded-full bg-maac-gold/10 backdrop-blur-md border border-maac-gold/20 flex items-center justify-center text-maac-gold animate-float">
-             {isVideoFunc(course.thumbnailUrl) ? <Play size={20} fill="currentColor" /> : <Award size={20} />}
+        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
+          <div className="w-14 h-14 rounded-full bg-maac-gold/20 backdrop-blur-xl border border-white/20 flex items-center justify-center text-maac-gold animate-float shadow-2xl">
+             {isVideoFunc(course.thumbnailUrl) ? <Play size={24} fill="currentColor" /> : <Award size={24} />}
           </div>
         </div>
       </div>
 
-      {/* Content */}
-      <div className="p-8 flex-1 flex flex-col relative z-20">
-        <h3 className="text-xl font-heading mb-3 group-hover:text-maac-gold transition-colors duration-300 tracking-tight">
+      {/* Typography Section */}
+      <div className="flex-1 flex flex-col relative z-20">
+        <h3 className="text-2xl font-bold font-sans text-white mb-3 group-hover:text-maac-gold transition-colors duration-300 leading-tight">
           {course.title}
         </h3>
+        
+        {/* Quick Info Row */}
+        <div className="flex items-center gap-4 mb-6">
+          <div className="flex items-center gap-1.5 text-xs text-gray-400 font-medium">
+            <Clock size={14} className="text-maac-gold" />
+            {course.duration}
+          </div>
+          <div className="w-1 h-1 rounded-full bg-white/10" />
+          <div className="flex items-center gap-1.5 text-xs text-gray-400 font-medium">
+            <Award size={14} className="text-maac-gold" />
+            Certified
+          </div>
+        </div>
+
         <p className="text-white/40 text-sm mb-8 line-clamp-2 font-sans leading-relaxed group-hover:text-white/60 transition-colors">
           {course.excerpt}
         </p>
         
-        <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
+        {/* Actions: Dual Button Row */}
+        <div className="mt-auto grid grid-cols-2 gap-3">
           <Link
             href={`/courses/${course.slug}`}
-            className="btn-pulse inline-flex items-center gap-2 bg-electric-red hover:bg-maac-gold text-white hover:text-obsidian-black px-6 py-3 font-heading text-[10px] uppercase tracking-[0.2em] transition-all duration-300"
+            className="bg-linear-to-r from-maac-gold to-[#FF8C00] hover:brightness-110 text-obsidian-black h-[48px] rounded-xl flex items-center justify-center font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-maac-gold/10 active:scale-95"
           >
-            Explore Course <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+            Details
           </Link>
+          <button
+            onClick={() => openModal(course.title)}
+            className="border-2 border-maac-gold text-maac-gold hover:bg-maac-gold/5 h-[48px] rounded-xl flex items-center justify-center font-bold text-xs uppercase tracking-wider transition-all active:scale-95 cursor-pointer"
+          >
+            Enquire
+          </button>
         </div>
       </div>
       
-      {/* Bottom Shimmer */}
-      <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-maac-gold/50 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left" />
+      {/* Bottom Shimmer Accent */}
+      <div className="absolute bottom-0 left-0 w-full h-[2px] bg-linear-to-r from-transparent via-maac-gold to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-1000 origin-left" />
     </motion.div>
   );
 }

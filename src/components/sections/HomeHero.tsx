@@ -34,7 +34,7 @@ export default function HomeHero({
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-obsidian-black/50 via-transparent to-obsidian-black pointer-events-none" />
 
       {/* Hero Content */}
-      <div className="relative z-10 container mx-auto px-6 text-center pt-32 md:pt-40">
+      <div className="relative z-10 container mx-auto px-6 text-center pt-20 md:pt-28">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
