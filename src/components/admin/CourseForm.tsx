@@ -19,8 +19,7 @@ export default function CourseForm({ initialData, id }: CourseFormProps) {
     title: initialData?.title || '',
     excerpt: initialData?.excerpt || '',
     duration: initialData?.duration || '',
-    content: initialData?.content || '',
-    embeddedHtml: initialData?.embeddedHtml || '',
+    content: (initialData?.content || '') + (initialData?.embeddedHtml ? `\n\n${initialData.embeddedHtml}` : ''),
     status: initialData?.status || 'draft' as 'draft' | 'published'
   });
 
@@ -53,6 +52,7 @@ export default function CourseForm({ initialData, id }: CourseFormProps) {
         ...formData,
         slug,
         thumbnailUrl,
+        embeddedHtml: "" // Explicitly clear old field
       };
 
       if (videoUrl) courseData.videoUrl = videoUrl;
@@ -126,32 +126,17 @@ export default function CourseForm({ initialData, id }: CourseFormProps) {
         </div>
 
         <div className="space-y-2">
-          <label className="text-[10px] uppercase tracking-widest text-white/40">Full Syllabus / Content</label>
-          <textarea
-            required
-            rows={10}
-            value={formData.content}
-            onChange={e => setFormData({ ...formData, content: e.target.value })}
-            className="w-full bg-obsidian-black border border-white/10 p-4 focus:border-maac-gold outline-none transition-colors font-sans"
-            placeholder="Detailed course modules..."
-          />
-        </div>
-
-        {/* New Embedded HTML Field */}
-        <div className="space-y-2">
           <label className="text-[10px] uppercase tracking-widest text-white/40 flex items-center gap-2">
-            <Code size={12} /> Embeddable HTML (Optional)
+            <Code size={12} /> Course Content (Supports HTML & Text)
           </label>
           <textarea
-            value={formData.embeddedHtml}
-            onChange={e => setFormData({ ...formData, embeddedHtml: e.target.value })}
-            rows={6}
-            className="w-full bg-obsidian-black border border-white/10 p-4 focus:border-maac-gold outline-none transition-colors font-mono text-sm text-maac-gold/80"
-            placeholder="<div class='custom-widget'>...</div>"
+            required
+            rows={15}
+            value={formData.content}
+            onChange={e => setFormData({ ...formData, content: e.target.value })}
+            className="w-full bg-obsidian-black border border-white/10 p-4 focus:border-maac-gold outline-none transition-colors font-sans text-sm leading-relaxed"
+            placeholder="Detailed course modules or custom HTML snippets..."
           />
-          <p className="text-[9px] text-white/20 uppercase tracking-widest">
-            Note: Scripts and iframes will be stripped for security.
-          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4">

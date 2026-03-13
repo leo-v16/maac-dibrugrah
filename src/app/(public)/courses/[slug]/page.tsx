@@ -132,18 +132,16 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                 </div>
               </div>
 
+              {course.excerpt && (
+                <p className="text-xl md:text-2xl text-white/40 font-sans italic border-l-2 border-maac-gold pl-6 leading-relaxed mb-12">
+                  {course.excerpt}
+                </p>
+              )}
+
               <div 
                 className="prose prose-invert prose-xl max-w-none font-sans text-white/70 leading-relaxed selection:bg-maac-gold selection:text-obsidian-black"
-                dangerouslySetInnerHTML={{ __html: course.content }}
+                dangerouslySetInnerHTML={{ __html: cleanHtml(course.content) }}
               />
-
-              {/* Secure Injected HTML Section */}
-              {course.embeddedHtml && (
-                <div 
-                  className="prose prose-invert max-w-none border-t border-white/5 pt-16 mt-16"
-                  dangerouslySetInnerHTML={{ __html: cleanHtml(course.embeddedHtml) }}
-                />
-              )}
 
               {course.audioUrl && (
                 <div className="p-10 bg-deep-navy border border-white/5 relative overflow-hidden group">

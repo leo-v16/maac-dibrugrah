@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
+import { parseDriveUrl } from '@/utils/drive';
 
 interface VideoModalProps {
   isOpen: boolean;
@@ -10,6 +11,14 @@ interface VideoModalProps {
 }
 
 export default function VideoModal({ isOpen, onClose, videoUrl }: VideoModalProps) {
+  const isDirectVideo = videoUrl?.includes('/video/upload/') || videoUrl?.match(/\.(mp4|webm|ogg|mov)$/i);
+  const isDrive = videoUrl?.includes('drive.google.com');
+  
+  // Choose the best URL based on the source
+  const finalUrl = isDrive 
+    ? parseDriveUrl(videoUrl, isDirectVideo ? 'direct' : 'preview')
+    : videoUrl;
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -35,20 +44,25 @@ export default function VideoModal({ isOpen, onClose, videoUrl }: VideoModalProp
               Close <X size={20} />
             </button>
 
-            {videoUrl?.includes('/video/upload/') || videoUrl?.match(/\.(mp4|webm|ogg|mov)$/i) ? (
-              <video 
-                src={videoUrl} 
-                controls 
-                autoPlay 
-                className="w-full h-full object-contain bg-black"
-              />
+            {finalUrl ? (
+              isDirectVideo ? (
+                <video 
+                  src={finalUrl} 
+                  controls 
+                  className="w-full h-full object-contain bg-black"
+                />
+              ) : (
+                <iframe
+                  src={finalUrl}
+                  className="w-full h-full"
+                  allow="fullscreen; picture-in-picture"
+                  allowFullScreen
+                />
+              )
             ) : (
-              <iframe
-                src={videoUrl}
-                className="w-full h-full"
-                allow="autoplay; fullscreen; picture-in-picture"
-                allowFullScreen
-              />
+              <div className="w-full h-full flex items-center justify-center text-white/20 font-heading text-xs uppercase tracking-[0.3em] italic">
+                Media source not found
+              </div>
             )}
           </motion.div>
         </div>

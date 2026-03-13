@@ -7,39 +7,43 @@ import Link from 'next/link';
 import CourseGrid from './CourseGrid';
 
 export default function CoursesSection({ courses }: { courses: Course[] }) {
+  const interests = [
+    "Graphic Design", "2D Animation", "3D Animation", 
+    "Visual Effects (VFX)", "Video Editing", "Game Design", 
+    "Interior Design", "Web Design (UI/UX)"
+  ];
+
   return (
-    <section id="courses" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-obsidian-black snap-start py-12 md:py-24">
+    <section id="courses" className="relative overflow-hidden bg-obsidian-black snap-start py-20 md:py-32">
       <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            className="max-w-2xl text-left"
+            className="max-w-3xl text-left"
           >
-            <h2 className="text-3xl md:text-5xl font-heading mb-4 uppercase">
+            <h2 className="text-4xl md:text-6xl font-heading mb-6 uppercase tracking-tighter">
               Our Flagship <span className="text-maac-gold">Programs</span>
             </h2>
-            <p className="text-white/60 font-sans text-sm md:text-base leading-relaxed mb-6">
+            <p className="text-white/60 font-sans text-base md:text-lg leading-relaxed mb-8 max-w-2xl">
               We offer a wide range of career-oriented courses designed to make you industry-ready from day one.
             </p>
-            <div className="space-y-4">
-              <p className="text-maac-gold font-heading text-xs md:text-sm uppercase tracking-widest">Select Your Interest</p>
-              <div className="flex flex-wrap gap-x-4 gap-y-2 text-white/40 font-sans text-[10px] md:text-xs uppercase tracking-wider">
-                <span className="hover:text-maac-gold transition-colors cursor-default">Graphic Design</span>
-                <span className="text-maac-gold/20">•</span>
-                <span className="hover:text-maac-gold transition-colors cursor-default">2D Animation</span>
-                <span className="text-maac-gold/20">•</span>
-                <span className="hover:text-maac-gold transition-colors cursor-default">3D Animation</span>
-                <span className="text-maac-gold/20">•</span>
-                <span className="hover:text-maac-gold transition-colors cursor-default">Visual Effects (VFX)</span>
-                <span className="text-maac-gold/20">•</span>
-                <span className="hover:text-maac-gold transition-colors cursor-default">Video Editing</span>
-                <span className="text-maac-gold/20">•</span>
-                <span className="hover:text-maac-gold transition-colors cursor-default">Game Design</span>
-                <span className="text-maac-gold/20">•</span>
-                <span className="hover:text-maac-gold transition-colors cursor-default">Interior Design</span>
-                <span className="text-maac-gold/20">•</span>
-                <span className="hover:text-maac-gold transition-colors cursor-default">Web Design (UI/UX)</span>
+            
+            <div className="space-y-6">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-[1px] bg-maac-gold/50" />
+                <p className="text-maac-gold font-heading text-[10px] md:text-xs uppercase tracking-[0.3em]">Specialized Tracks</p>
+              </div>
+              
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-4 border-l border-white/5 pl-6 md:pl-8 overflow-visible">
+                {interests.map((interest) => (
+                  <div key={interest} className="group flex items-center gap-3">
+                    <div className="w-1 h-1 rounded-full bg-maac-gold/20 group-hover:bg-maac-gold transition-all duration-300 group-hover:scale-125 flex-shrink-0" />
+                    <span className="text-white/30 font-sans text-[9px] md:text-[11px] uppercase tracking-[0.15em] group-hover:text-white transition-colors cursor-default whitespace-nowrap">
+                      {interest}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
           </motion.div>

@@ -5,6 +5,7 @@ import { settingsService, SiteSettings } from '@/services/settingsService';
 import { uploadMedia } from '@/lib/utils';
 import { Save, Video, Globe, RefreshCcw, Phone, Mail, MapPin, Instagram, Facebook, Youtube, Linkedin, MessageCircle, Type, Clock, Image as ImageIcon } from 'lucide-react';
 import { revalidateAll } from '@/app/actions';
+import { parseDriveUrl } from '@/utils/drive';
 
 export default function SettingsPage() {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
@@ -28,7 +29,7 @@ export default function SettingsPage() {
   }, []);
 
   const isVideoUrl = (url: string) => {
-    return url?.includes('/video/upload/') || url?.match(/\.(mp4|webm|ogg|mov)$/i);
+    return !!(url?.includes('/video/upload/') || url?.match(/\.(mp4|webm|ogg|mov)$/i) || url?.includes('drive.google.com') || url?.includes('youtube.com') || url?.includes('vimeo.com'));
   };
 
   const handleSave = async (e: React.FormEvent) => {
@@ -267,17 +268,17 @@ export default function SettingsPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div className="space-y-6">
               <div className="space-y-3">
-                <label className="text-[10px] uppercase tracking-widest text-white/40 block">Change Banner (Upload)</label>
+                <label className="text-[10px] uppercase tracking-widest text-white/40 block">Change Banner (Upload Image/Video)</label>
                 <div className="relative group">
                   <input
                     type="file"
-                    accept="image/*"
+                    accept="image/*,video/*"
                     onChange={e => setAboutImageFile(e.target.files?.[0] || null)}
                     className="absolute inset-0 opacity-0 cursor-pointer z-10"
                   />
                   <div className={`text-xs p-6 border border-dashed transition-colors flex flex-col items-center gap-2 ${aboutImageFile ? 'border-maac-gold text-maac-gold' : 'border-white/10 text-white/20 group-hover:border-white/30'}`}>
-                    <ImageIcon size={24} />
-                    {aboutImageFile ? aboutImageFile.name : 'Select New Image...'}
+                    {aboutImageFile?.type.startsWith('video/') ? <Video size={24} /> : <ImageIcon size={24} />}
+                    {aboutImageFile ? aboutImageFile.name : 'Select Image or Video...'}
                   </div>
                 </div>
               </div>
@@ -295,14 +296,21 @@ export default function SettingsPage() {
 
             <div className="aspect-video bg-obsidian-black border border-white/5 overflow-hidden flex items-center justify-center relative group">
                {isVideoUrl(settings.aboutImageUrl) ? (
-                 <video 
-                  src={settings.aboutImageUrl} 
-                  autoPlay muted loop playsInline
-                  className="w-full h-full object-cover opacity-40 group-hover:opacity-100 transition-opacity"
-                 />
+                 settings.aboutImageUrl.includes('drive.google.com') || settings.aboutImageUrl.includes('youtube.com') || settings.aboutImageUrl.includes('vimeo.com') ? (
+                   <iframe 
+                    src={parseDriveUrl(settings.aboutImageUrl, 'preview')} 
+                    className="w-full h-full border-none opacity-60 group-hover:opacity-100 transition-opacity"
+                   />
+                 ) : (
+                   <video 
+                    src={settings.aboutImageUrl} 
+                    autoPlay muted loop playsInline
+                    className="w-full h-full object-cover opacity-40 group-hover:opacity-100 transition-opacity"
+                   />
+                 )
                ) : (
                  <img 
-                  src={settings.aboutImageUrl} 
+                  src={parseDriveUrl(settings.aboutImageUrl)} 
                   alt="Banner Preview" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-100 transition-opacity" 
                  />

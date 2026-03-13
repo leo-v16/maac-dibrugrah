@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { parseDriveUrl } from '@/utils/drive';
 
 const features = [
   { label: 'Free Demo Class', icon: MonitorPlay },
@@ -160,15 +161,15 @@ export default function AboutSection({
             className="w-full h-full border border-white/10 rounded-sm p-3 md:p-4"
           >
             <div className="w-full h-full overflow-hidden flex items-center justify-center bg-obsidian-black relative">
-              {imageUrl?.includes('/video/upload/') || imageUrl?.match(/\.(mp4|webm|ogg|mov)$/i) ? (
+              {imageUrl?.includes('/video/upload/') || imageUrl?.match(/\.(mp4|webm|ogg|mov)$/i) || imageUrl?.includes('drive.google.com') ? (
                 <video 
-                  src={imageUrl} 
+                  src={parseDriveUrl(imageUrl)} 
                   autoPlay muted loop playsInline
                   className="w-full h-full object-cover"
                 />
               ) : (
                 <img 
-                  src={imageUrl} 
+                  src={parseDriveUrl(imageUrl)} 
                   alt="MAAC Dibrugarh Showcase" 
                   className="w-full h-full object-contain"
                 />

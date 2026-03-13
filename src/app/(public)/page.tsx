@@ -27,16 +27,14 @@ export default async function Home() {
     settingsService.getSettings()
   ]);
 
-  const topCourses = allCourses.slice(0, 3);
-
   return (
-    <div className="h-screen overflow-y-auto snap-y snap-mandatory scroll-smooth">
+    <div className="h-screen overflow-y-auto snap-y snap-proximity scroll-smooth">
       <HomeHero 
         showreelUrl={settings.showreelUrl} 
         heading={settings.heroHeading}
         subheading={settings.heroSubheading}
       />
-      <CoursesSection courses={topCourses} />
+      <CoursesSection courses={allCourses} />
       <AboutSection 
         imageUrl={settings.aboutImageUrl}
       />

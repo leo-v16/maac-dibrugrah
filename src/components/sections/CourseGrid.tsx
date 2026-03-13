@@ -51,7 +51,7 @@ function CourseCard({ course, idx, isVideoFunc }: { course: Course, idx: number,
       />
 
       {/* Header: Media Area */}
-      <div className="relative aspect-video rounded-[18px] overflow-hidden bg-black mb-6">
+      <div className="relative aspect-video rounded-[12px] overflow-hidden bg-black mb-4">
         {isVideoFunc(course.thumbnailUrl) ? (
           <video
             src={course.thumbnailUrl}

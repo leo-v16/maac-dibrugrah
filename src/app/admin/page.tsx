@@ -82,7 +82,7 @@ export default function AdminDashboard() {
          </div>
 
          <div className="bg-deep-navy border border-white/5 p-8 flex flex-col justify-center items-center text-center">
-            <p className="text-white/20 font-sans tracking-[0.2em] uppercase text-xs">MAAC Dibrugarh Administration Console v1.0</p>
+            <p className="text-white/20 font-sans tracking-[0.2em] uppercase text-xs">MAAC Dibrugarh Administration Console v1.7</p>
          </div>
       </div>
     </div>
