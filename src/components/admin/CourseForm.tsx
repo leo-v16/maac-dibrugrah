@@ -125,18 +125,40 @@ export default function CourseForm({ initialData, id }: CourseFormProps) {
           />
         </div>
 
-        <div className="space-y-2">
-          <label className="text-[10px] uppercase tracking-widest text-white/40 flex items-center gap-2">
-            <Code size={12} /> Course Content (Supports HTML & Text)
-          </label>
-          <textarea
-            required
-            rows={15}
-            value={formData.content}
-            onChange={e => setFormData({ ...formData, content: e.target.value })}
-            className="w-full bg-obsidian-black border border-white/10 p-4 focus:border-maac-gold outline-none transition-colors font-sans text-sm leading-relaxed"
-            placeholder="Detailed course modules or custom HTML snippets..."
-          />
+        <div className="space-y-4">
+          <div className="bg-maac-gold/5 border border-maac-gold/20 p-4 rounded-lg flex items-start justify-between gap-4">
+            <div className="space-y-1">
+              <p className="text-[10px] uppercase tracking-widest text-maac-gold font-bold">Styling Direction</p>
+              <p className="text-xs text-white/60 font-sans leading-relaxed">
+                Use **inline vanilla CSS** for designing the layout and colors. Tailwind classes will not work. 
+                Include this text in your AI prompt: <span className="text-white italic">"Use ONLY inline vanilla CSS for all styling (colors, layout, spacing). Do NOT use Tailwind CSS classes."</span>
+              </p>
+            </div>
+            <button 
+              type="button"
+              onClick={() => {
+                navigator.clipboard.writeText('Use ONLY inline vanilla CSS for all styling (colors, layout, spacing). Do NOT use Tailwind CSS classes as they will not be rendered.');
+                alert('Prompt hint copied!');
+              }}
+              className="px-3 py-1.5 bg-maac-gold text-obsidian-black text-[10px] font-heading uppercase tracking-widest hover:bg-white transition-all shrink-0"
+            >
+              Copy Prompt
+            </button>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-[10px] uppercase tracking-widest text-white/40 flex items-center gap-2">
+              <Code size={12} /> Course Content (Supports HTML & Text)
+            </label>
+            <textarea
+              required
+              rows={15}
+              value={formData.content}
+              onChange={e => setFormData({ ...formData, content: e.target.value })}
+              className="w-full bg-obsidian-black border border-white/10 p-4 focus:border-maac-gold outline-none transition-colors font-sans text-sm leading-relaxed"
+              placeholder="Detailed course modules or custom HTML snippets..."
+            />
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4">

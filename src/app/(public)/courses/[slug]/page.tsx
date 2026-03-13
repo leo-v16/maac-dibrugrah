@@ -138,6 +138,15 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                 </p>
               )}
 
+              {/* 
+                STYLING DIRECTION: Use inline vanilla CSS (not Tailwind CSS) for designing the layout 
+                and colors within the HTML content below. Tailwind classes will not work as they 
+                are not pre-compiled for dynamic database content. 
+                
+                PROMPT HINT: When generating this content with an AI, include this text:
+                "Use ONLY inline vanilla CSS for all styling (colors, layout, spacing). 
+                Do NOT use Tailwind CSS classes as they will not be rendered."
+              */}
               <div 
                 className="prose prose-invert prose-xl max-w-none font-sans text-white/70 leading-relaxed selection:bg-maac-gold selection:text-obsidian-black"
                 dangerouslySetInnerHTML={{ __html: cleanHtml(course.content) }}

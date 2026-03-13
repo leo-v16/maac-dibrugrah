@@ -136,7 +136,13 @@ The public pages (Home, Courses, Blogs) are rendered as **Static Server Componen
 - **Global Modal:** Controlled via `EnquiryContext`, accessible from any button or auto-triggered after 5 seconds on first visit.
 - **Lightning Reveal:** Character-based staggered animations reveal the brand message to increase user engagement.
 
-### 4. Security
+### 4. Content Styling (CMS)
+- **Inline CSS Requirement:** When adding HTML content (e.g., for Courses or Blogs) via the Admin CMS, **use only inline vanilla CSS** for styling.
+- **Why?** Tailwind CSS classes will not work because they are pruned at build-time and the dynamic content is added at runtime.
+- **AI Prompt Guide:** If you use an AI to generate course content, use the following instruction in your prompt:
+  > "Use ONLY inline vanilla CSS for all styling (colors, layout, spacing). Do NOT use Tailwind CSS classes as they will not be rendered."
+
+### 5. Security
 - **Admin Protection:** The `/admin` route group is protected via Firebase Auth.
 - **Input Sanitization:** Rich text from the CMS is passed through `DOMPurify` before being rendered with `dangerouslySetInnerHTML`.
 
