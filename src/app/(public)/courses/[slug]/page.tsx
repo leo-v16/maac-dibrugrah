@@ -7,8 +7,13 @@ import EnquireButton from '@/components/courses/EnquireButton';
 import CourseMobileCTA from '@/components/courses/CourseMobileCTA';
 import { Metadata } from 'next';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
+  if (!slug) return { title: 'Course Not Found' };
+  
   const course = await courseService.getBySlug(slug);
 
   if (!course) return { title: 'Course Not Found' };
@@ -19,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     openGraph: {
       title: course.title,
       description: course.excerpt,
-      images: [course.thumbnailUrl],
+      images: course.thumbnailUrl ? [course.thumbnailUrl] : [],
       type: 'article',
     },
   };
@@ -27,13 +32,17 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export async function generateStaticParams() {
   const courses = await courseService.getPublished();
-  return courses.map((course) => ({
-    slug: course.slug,
-  }));
+  return courses
+    .filter(course => course.slug)
+    .map((course) => ({
+      slug: course.slug,
+    }));
 }
 
 export default async function CourseDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+  if (!slug) notFound();
+  
   const course = await courseService.getBySlug(slug);
 
   if (!course) {

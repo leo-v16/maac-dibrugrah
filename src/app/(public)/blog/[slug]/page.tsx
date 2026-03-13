@@ -5,9 +5,14 @@ import Link from 'next/link';
 import { cleanHtml } from '@/utils/sanitize';
 import { parseDriveUrl } from '@/utils/drive';
 import { Metadata } from 'next';
+import { Blog } from '@/types';
 import BlogMobileCTA from '@/components/sections/BlogMobileCTA';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+
   const { slug } = await params;
   const blog = await blogService.getBlogBySlug(slug);
 

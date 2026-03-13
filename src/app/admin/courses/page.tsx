@@ -31,10 +31,11 @@ export default function AdminCoursesPage() {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (confirm('Are you sure you want to delete this career program?')) {
+  const handleDelete = async (course: Course) => {
+    if (confirm(`Are you sure you want to delete "${course.title}"?`)) {
       try {
-        await courseService.delete(id);
+        await courseService.delete(course.id);
+        await revalidateCourses(course.slug);
         fetchCourses();
       } catch (err) {
         alert('Error deleting course');
@@ -134,7 +135,7 @@ export default function AdminCoursesPage() {
                   <Edit2 size={18} />
                 </Link>
                 <button 
-                  onClick={() => handleDelete(course.id)}
+                  onClick={() => handleDelete(course)}
                   className="p-3 bg-white/5 hover:bg-electric-red/20 text-white/40 hover:text-electric-red transition-all"
                   title="Delete Course"
                 >

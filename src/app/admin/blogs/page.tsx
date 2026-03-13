@@ -27,11 +27,11 @@ export default function AdminBlogsPage() {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (confirm('Are you sure you want to delete this story?')) {
+  const handleDelete = async (blog: Blog) => {
+    if (confirm(`Are you sure you want to delete "${blog.title}"?`)) {
       try {
-        await blogService.deleteBlog(id);
-        await revalidateBlogs();
+        await blogService.deleteBlog(blog.id);
+        await revalidateBlogs(blog.slug);
         fetchBlogs();
       } catch (err) {
         alert('Error deleting post');
@@ -98,7 +98,7 @@ export default function AdminBlogsPage() {
                       <Edit2 size={14} />
                      </Link>
                      <button 
-                      onClick={() => handleDelete(blog.id)}
+                      onClick={() => handleDelete(blog)}
                       className="text-electric-red/40 hover:text-electric-red transition-all"
                       title="Delete Post"
                      >
