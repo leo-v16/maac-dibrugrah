@@ -115,65 +115,81 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
         </div>
       </section>
 
-      <div className="container mx-auto px-6 py-12 md:py-20">
+      <div className="container mx-auto px-6 py-12 md:py-24">
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-20">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 lg:gap-20">
             
-            {/* Main Content */}
-            <div className="lg:col-span-2 space-y-10 md:space-y-16">
-              <div className="space-y-6">
-                <h1 className="text-4xl md:text-7xl font-heading leading-tight uppercase">
+            {/* Main Content (Dominant 75%) */}
+            <div className="lg:col-span-3 space-y-12 md:space-y-20">
+              <div className="space-y-8">
+                <h1 className="text-4xl md:text-8xl font-heading leading-[1.1] uppercase tracking-tighter">
                   {course.title}
                 </h1>
-                <div className="flex flex-wrap items-center gap-x-8 gap-y-4 text-[10px] uppercase tracking-widest text-maac-gold/60">
-                  <span className="flex items-center gap-2 border-r border-white/10 pr-8"><Clock size={14} /> {course.duration}</span>
-                  <span className="flex items-center gap-2 border-r border-white/10 pr-8"><Award size={14} /> Industry Certified</span>
-                  <span className="flex items-center gap-2"><Calendar size={14} /> New Batch Starting Soon</span>
+                <div className="flex flex-wrap items-center gap-x-10 gap-y-4 text-[10px] uppercase tracking-[0.2em] text-maac-gold/60 border-y border-white/5 py-6">
+                  <span className="flex items-center gap-3 border-r border-white/10 pr-10"><Clock size={16} /> {course.duration}</span>
+                  <span className="flex items-center gap-3 border-r border-white/10 pr-10"><Award size={16} /> Industry Certified</span>
+                  <span className="flex items-center gap-3"><Calendar size={16} /> New Batch Starting Soon</span>
                 </div>
               </div>
 
               <div 
-                className="prose prose-invert prose-lg max-w-none font-sans text-white/70 leading-relaxed selection:bg-maac-gold selection:text-obsidian-black"
+                className="prose prose-invert prose-xl max-w-none font-sans text-white/70 leading-relaxed selection:bg-maac-gold selection:text-obsidian-black"
                 dangerouslySetInnerHTML={{ __html: course.content }}
               />
 
               {/* Secure Injected HTML Section */}
               {course.embeddedHtml && (
                 <div 
-                  className="prose prose-invert max-w-none border-t border-white/5 pt-12 mt-12"
+                  className="prose prose-invert max-w-none border-t border-white/5 pt-16 mt-16"
                   dangerouslySetInnerHTML={{ __html: cleanHtml(course.embeddedHtml) }}
                 />
               )}
 
               {course.audioUrl && (
-                <div className="p-6 md:p-10 bg-deep-navy border border-white/5 relative overflow-hidden group">
+                <div className="p-10 bg-deep-navy border border-white/5 relative overflow-hidden group">
                   <div className="absolute top-0 right-0 p-4 opacity-5">
-                    <Headphones size={64} />
+                    <Headphones size={80} />
                   </div>
-                  <h4 className="font-heading text-sm mb-6 flex items-center gap-2">
+                  <h4 className="font-heading text-xs mb-8 flex items-center gap-3 uppercase tracking-widest text-white/40">
                     <Headphones size={18} className="text-maac-gold" /> Listen to Course Introduction
                   </h4>
-                  <audio controls className="w-full h-10 filter invert">
+                  <audio controls className="w-full h-10 filter invert opacity-80 hover:opacity-100 transition-opacity">
                     <source src={course.audioUrl} />
                   </audio>
                 </div>
               )}
             </div>
 
-            {/* Sidebar / CTA */}
+            {/* Sidebar (Slim 25%) */}
             <aside className="lg:col-span-1">
-               <div className="bg-deep-navy border border-white/5 p-8 lg:sticky lg:top-32 space-y-6">
-                  <div className="relative">
-                    <h3 className="text-xl font-heading uppercase mb-2">Enroll Now</h3>
-                    <div className="w-12 h-[2px] bg-maac-gold mb-6" />
+               <div className="lg:sticky lg:top-32 space-y-10">
+                  <div className="bg-deep-navy/50 backdrop-blur-sm border border-white/10 p-8 space-y-8 relative overflow-hidden group">
+                    <div className="absolute top-0 left-0 w-1 h-0 bg-maac-gold group-hover:h-full transition-all duration-500" />
+                    
+                    <div className="relative">
+                      <h3 className="text-xl font-heading uppercase mb-2 tracking-tight">Enroll Now</h3>
+                      <p className="text-white/40 text-xs font-sans leading-relaxed">
+                        Start your journey in High-End Animation and VFX with MAAC Dibrugarh.
+                      </p>
+                    </div>
+
+                    <EnquireButton courseTitle={course.title} />
+
+                    <div className="space-y-4 pt-6 border-t border-white/5">
+                      <div className="flex items-center gap-3 text-[10px] text-white/30 uppercase tracking-widest">
+                        <Award size={14} className="text-maac-gold" /> Placement Support
+                      </div>
+                      <div className="flex items-center gap-3 text-[10px] text-white/30 uppercase tracking-widest">
+                        <Award size={14} className="text-maac-gold" /> Studio Environment
+                      </div>
+                    </div>
                   </div>
-                  <p className="text-white/40 text-sm font-sans leading-relaxed mb-8">
-                    Start your journey in the world of High-End Animation and VFX with MAAC Dibrugarh. Join our upcoming batch.
-                  </p>
-                  <EnquireButton courseTitle={course.title} />
-                  <p className="text-[10px] text-white/20 uppercase tracking-widest text-center pt-4 border-t border-white/5">
-                    Guaranteed Job Placement Assistance
-                  </p>
+
+                  <div className="hidden lg:block border-l border-white/5 pl-8 py-4">
+                    <h4 className="font-heading text-[10px] uppercase tracking-[0.3em] text-white/20 mb-4">Explore More</h4>
+                    <Link href="/courses" className="block text-xs uppercase tracking-widest text-white/40 hover:text-maac-gold transition-colors mb-3">All Programs</Link>
+                    <Link href="/gallery" className="block text-xs uppercase tracking-widest text-white/40 hover:text-maac-gold transition-colors">Student Work</Link>
+                  </div>
                </div>
             </aside>
           </div>
