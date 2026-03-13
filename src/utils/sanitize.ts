@@ -62,9 +62,7 @@ export const cleanHtml = (dirtyHtml: string): string => {
         'font-family': [/^.*$/],
         'font-size': [/^.*$/],
         'text-align': [/^.*$/],
-        'list-style-type': [/^.*$/],
-        'padding-left': [/^.*$/],
-        'border-bottom': [/^.*$/],
+        'list-style-type': [/^.*$/]
       }
     }
   });
