@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronRight, Play } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { useEnquiryModal } from '@/context/EnquiryContext';
 import VideoModal from '../VideoModal';
 
@@ -56,12 +57,12 @@ export default function HomeHero({
           </p>
 
           <div className="mt-12 flex flex-col md:flex-row items-center justify-center gap-6">
-            <button 
-              onClick={() => openModal()}
+            <Link 
+              href="/courses"
               className="group bg-maac-gold text-obsidian-black px-10 py-4 rounded-full font-heading uppercase tracking-widest text-sm transition-all hover:bg-white flex items-center gap-2"
             >
               Explore Courses <ChevronRight size={18} className="transition-transform group-hover:translate-x-1" />
-            </button>
+            </Link>
             <button 
               onClick={() => setIsVideoModalOpen(true)}
               className="px-10 py-4 rounded-full bg-deep-navy text-white font-heading uppercase tracking-widest text-sm transition-all hover:bg-white/10 border border-white/5"

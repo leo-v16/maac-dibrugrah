@@ -35,12 +35,21 @@ export default function VideoModal({ isOpen, onClose, videoUrl }: VideoModalProp
               Close <X size={20} />
             </button>
 
-            <iframe
-              src={videoUrl}
-              className="w-full h-full"
-              allow="autoplay; fullscreen; picture-in-picture"
-              allowFullScreen
-            />
+            {videoUrl?.includes('/video/upload/') || videoUrl?.match(/\.(mp4|webm|ogg|mov)$/i) ? (
+              <video 
+                src={videoUrl} 
+                controls 
+                autoPlay 
+                className="w-full h-full object-contain bg-black"
+              />
+            ) : (
+              <iframe
+                src={videoUrl}
+                className="w-full h-full"
+                allow="autoplay; fullscreen; picture-in-picture"
+                allowFullScreen
+              />
+            )}
           </motion.div>
         </div>
       )}

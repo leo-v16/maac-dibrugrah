@@ -8,8 +8,8 @@ import { Course } from '@/types';
 import { MouseEvent } from 'react';
 
 export default function CourseGrid({ courses }: { courses: Course[] }) {
-  const isVideo = (url: string) => {
-    return url?.includes('/video/upload/') || url?.match(/\.(mp4|webm|ogg|mov)$/i);
+  const isVideo = (url: string): boolean => {
+    return !!(url?.includes('/video/upload/') || url?.match(/\.(mp4|webm|ogg|mov)$/i));
   };
 
   return (

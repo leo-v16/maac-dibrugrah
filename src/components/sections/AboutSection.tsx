@@ -14,8 +14,10 @@ import {
   Briefcase, 
   GraduationCap, 
   CalendarDays, 
-  FolderKanban 
+  FolderKanban,
+  ChevronRight
 } from 'lucide-react';
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
 const features = [
@@ -109,6 +111,22 @@ export default function AboutSection({
             <p className="text-white/70 font-sans text-base md:text-lg mb-10 leading-relaxed max-w-xl mx-auto md:mx-0">
               Best Animation (AVGC) Institute in Assam. Our campus is designed to give you the experience of a professional production studio environment, ensuring students are industry-ready from day one.
             </p>
+
+            {!isAboutPage && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="mb-12"
+              >
+                <Link 
+                  href="/about"
+                  className="inline-flex items-center gap-2 bg-deep-navy border border-white/10 text-white px-8 py-3 font-heading text-xs uppercase tracking-widest hover:bg-maac-gold hover:text-obsidian-black hover:border-maac-gold transition-all"
+                >
+                  Read Our Story <ChevronRight size={16} />
+                </Link>
+              </motion.div>
+            )}
             
             <p className="text-white/40 font-sans text-xs md:text-sm uppercase tracking-widest mb-8 block text-left">We also Provide:</p>
             
@@ -141,12 +159,20 @@ export default function AboutSection({
             transition={{ duration: 1 }}
             className="w-full h-full border border-white/10 rounded-sm p-3 md:p-4"
           >
-            <div className="w-full h-full overflow-hidden flex items-center justify-center bg-obsidian-black">
-              <img 
-                src={imageUrl} 
-                alt="MAAC Dibrugarh Showcase" 
-                className="w-full h-full object-contain"
-              />
+            <div className="w-full h-full overflow-hidden flex items-center justify-center bg-obsidian-black relative">
+              {imageUrl?.includes('/video/upload/') || imageUrl?.match(/\.(mp4|webm|ogg|mov)$/i) ? (
+                <video 
+                  src={imageUrl} 
+                  autoPlay muted loop playsInline
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <img 
+                  src={imageUrl} 
+                  alt="MAAC Dibrugarh Showcase" 
+                  className="w-full h-full object-contain"
+                />
+              )}
             </div>
             
             {/* Animated Floating Elements */}

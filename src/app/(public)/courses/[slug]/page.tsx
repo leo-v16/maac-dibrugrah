@@ -40,8 +40,8 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
     notFound();
   }
 
-  const isVideo = (url: string) => {
-    return url?.includes('/video/upload/') || url?.match(/\.(mp4|webm|ogg|mov)$/i);
+  const isVideo = (url: string): boolean => {
+    return !!(url?.includes('/video/upload/') || url?.match(/\.(mp4|webm|ogg|mov)$/i));
   };
 
   const jsonLd = {
@@ -161,14 +161,19 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
             </div>
 
             {/* Sidebar / CTA */}
-            <aside className="hidden lg:block">
+            <aside className="lg:col-span-1">
                <div className="bg-deep-navy border border-white/5 p-8 lg:sticky lg:top-32 space-y-6">
-                  <h3 className="text-xl font-heading uppercase">Enroll Now</h3>
-                  <p className="text-white/40 text-sm font-sans leading-relaxed">
-                    Start your journey in the world of High-End Animation and VFX with MAAC Dibrugarh.
+                  <div className="relative">
+                    <h3 className="text-xl font-heading uppercase mb-2">Enroll Now</h3>
+                    <div className="w-12 h-[2px] bg-maac-gold mb-6" />
+                  </div>
+                  <p className="text-white/40 text-sm font-sans leading-relaxed mb-8">
+                    Start your journey in the world of High-End Animation and VFX with MAAC Dibrugarh. Join our upcoming batch.
                   </p>
                   <EnquireButton courseTitle={course.title} />
-                  <p className="text-[10px] text-white/20 uppercase tracking-widest text-center">Get personalized career counseling</p>
+                  <p className="text-[10px] text-white/20 uppercase tracking-widest text-center pt-4 border-t border-white/5">
+                    Guaranteed Job Placement Assistance
+                  </p>
                </div>
             </aside>
           </div>

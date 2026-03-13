@@ -1,3 +1,6 @@
+/* Manual Font Imports - Must be at the absolute top of the file */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap');
+
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
@@ -8,6 +11,10 @@
   --maac-gold: #FFD700;
   --electric-red: #E31E24;
   --royal-blue: #2D5BFF;
+  
+  /* Fallback variable definitions */
+  --font-montserrat: 'Montserrat', sans-serif;
+  --font-poppins: 'Poppins', sans-serif;
 }
 
 @theme {
@@ -17,8 +24,8 @@
   --color-electric-red: #E31E24;
   --color-royal-blue: #2D5BFF;
   
-  --font-heading: var(--font-montserrat), "Montserrat", sans-serif;
-  --font-sans: var(--font-poppins), "Poppins", sans-serif;
+  --font-heading: "Montserrat", sans-serif;
+  --font-sans: "Poppins", sans-serif;
 }
 
 @layer base {
@@ -27,11 +34,11 @@
   }
   html {
     @apply scroll-smooth;
-    font-family: var(--font-poppins), "Poppins", sans-serif;
+    font-family: "Poppins", sans-serif;
   }
   body {
     @apply bg-obsidian-black text-white overflow-x-hidden;
-    font-family: var(--font-poppins), "Poppins", sans-serif;
+    font-family: "Poppins", sans-serif;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading uppercase tracking-wider font-bold;
@@ -156,4 +163,3 @@
   transform: scale(1.05);
   filter: blur(4px);
 }
-

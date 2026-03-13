@@ -16,13 +16,28 @@ export default function AdminLoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Rate Limiting
+    const now = Date.now();
+    const lastAttempts = JSON.parse(localStorage.getItem('admin_login_attempts') || '[]');
+    const fifteenMinsAgo = now - 900000;
+    const recentAttempts = lastAttempts.filter((t: number) => t > fifteenMinsAgo);
+
+    if (recentAttempts.length >= 5) {
+      setError('Too many failed attempts. Please wait 15 minutes.');
+      return;
+    }
+
     setLoading(true);
     setError('');
     
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      localStorage.removeItem('admin_login_attempts'); // Clear on success
       router.push('/admin');
     } catch (err: any) {
+      recentAttempts.push(now);
+      localStorage.setItem('admin_login_attempts', JSON.stringify(recentAttempts));
       setError('Invalid credentials. Please try again.');
       console.error(err);
     } finally {

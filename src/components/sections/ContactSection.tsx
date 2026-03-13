@@ -23,12 +23,27 @@ export default function ContactSection({ settings }: { settings: SiteSettings })
       alert('Please select your interest.');
       return;
     }
+
+    // Rate Limiting Check (Device specific)
+    const now = Date.now();
+    const lastSubmissions = JSON.parse(localStorage.getItem('maac_lead_submissions') || '[]');
+    const hourAgo = now - 3600000;
+    const recentSubmissions = lastSubmissions.filter((t: number) => t > hourAgo);
+
+    if (recentSubmissions.length >= 5) {
+      alert('Too many enquiries from this device. Please try again after an hour.');
+      return;
+    }
     
     setLoading(true);
     try {
       await leadService.createLead(formData as any);
       setSubmitted(true);
       setFormData({ name: '', phone: '', courseInterest: 'Select Your Interest' });
+      
+      // Save submission timestamp
+      recentSubmissions.push(now);
+      localStorage.setItem('maac_lead_submissions', JSON.stringify(recentSubmissions));
     } catch (err) {
       console.error(err);
       alert('Failed to send enquiry. Please try again.');

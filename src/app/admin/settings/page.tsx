@@ -9,6 +9,7 @@ import { revalidateAll } from '@/app/actions';
 export default function SettingsPage() {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
   const [aboutImageFile, setAboutImageFile] = useState<File | null>(null);
+  const [reelFile, setReelFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
@@ -26,6 +27,10 @@ export default function SettingsPage() {
     load();
   }, []);
 
+  const isVideoUrl = (url: string) => {
+    return url?.includes('/video/upload/') || url?.match(/\.(mp4|webm|ogg|mov)$/i);
+  };
+
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (saving || !settings) return;
@@ -34,18 +39,35 @@ export default function SettingsPage() {
     try {
       let finalSettings = { ...settings };
 
+      // Handle Banner Upload
       if (aboutImageFile) {
-        const preset = process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_BLOGS as string;
+        const isVideo = aboutImageFile.type.startsWith('video/');
+        const preset = isVideo 
+          ? process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_COURSES as string // Video preset
+          : process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_BLOGS as string;  // Image preset
         const uploadedUrl = await uploadMedia(aboutImageFile, preset);
         if (uploadedUrl) {
           finalSettings.aboutImageUrl = uploadedUrl;
         }
       }
 
+      // Handle Reel Upload
+      if (reelFile) {
+        const isVideo = reelFile.type.startsWith('video/');
+        const preset = isVideo 
+          ? process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_COURSES as string 
+          : process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_BLOGS as string;
+        const uploadedUrl = await uploadMedia(reelFile, preset);
+        if (uploadedUrl) {
+          finalSettings.showreelUrl = uploadedUrl;
+        }
+      }
+
       await settingsService.updateSettings(finalSettings);
       await revalidateAll();
       alert('Settings updated successfully!');
-      setAboutImageFile(null); // Clear selected file
+      setAboutImageFile(null);
+      setReelFile(null);
     } catch (err) {
       console.error("Save Error:", err);
       alert('Failed to update settings. Please check your connection.');
@@ -104,16 +126,6 @@ export default function SettingsPage() {
 
           <div className="space-y-6">
             <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-widest text-white/40 block">Main Headline (Big Text)</label>
-              <textarea
-                value={settings.heroHeading}
-                onChange={(e) => updateField('heroHeading', e.target.value)}
-                className="w-full bg-obsidian-black border border-white/10 p-4 focus:border-maac-gold outline-none transition-colors text-white font-heading text-lg"
-                rows={2}
-              />
-            </div>
-            
-            <div className="space-y-2">
               <label className="text-[10px] uppercase tracking-widest text-white/40 block">Sub-headline (Starting Text)</label>
               <input
                 type="text"
@@ -124,13 +136,28 @@ export default function SettingsPage() {
             </div>
 
             <div className="space-y-2 pt-4 border-t border-white/5">
-              <label className="text-[10px] uppercase tracking-widest text-white/40 block">Showreel Embed URL (YouTube/Vimeo)</label>
-              <input
-                type="url"
-                value={settings.showreelUrl}
-                onChange={(e) => updateField('showreelUrl', e.target.value)}
-                className="w-full bg-obsidian-black border border-white/10 p-4 focus:border-maac-gold outline-none transition-colors text-white font-mono text-sm"
-              />
+              <label className="text-[10px] uppercase tracking-widest text-white/40 block">Showreel (Embed URL or Upload)</label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input
+                  type="url"
+                  placeholder="Paste YouTube/Vimeo URL"
+                  value={settings.showreelUrl}
+                  onChange={(e) => updateField('showreelUrl', e.target.value)}
+                  className="w-full bg-obsidian-black border border-white/10 p-4 focus:border-maac-gold outline-none transition-colors text-white font-mono text-xs"
+                />
+                <div className="relative group">
+                  <input
+                    type="file"
+                    accept="video/*,image/*"
+                    onChange={e => setReelFile(e.target.files?.[0] || null)}
+                    className="absolute inset-0 opacity-0 cursor-pointer z-10"
+                  />
+                  <div className={`text-[10px] p-4 border border-dashed transition-colors flex items-center justify-center gap-2 h-full uppercase tracking-widest ${reelFile ? 'border-maac-gold text-maac-gold' : 'border-white/10 text-white/20 group-hover:border-white/30'}`}>
+                    <Video size={16} />
+                    {reelFile ? reelFile.name : 'Upload Reel File'}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -267,11 +294,19 @@ export default function SettingsPage() {
             </div>
 
             <div className="aspect-video bg-obsidian-black border border-white/5 overflow-hidden flex items-center justify-center relative group">
-               <img 
-                src={settings.aboutImageUrl} 
-                alt="Banner Preview" 
-                className="w-full h-full object-cover opacity-40 group-hover:opacity-100 transition-opacity" 
-               />
+               {isVideoUrl(settings.aboutImageUrl) ? (
+                 <video 
+                  src={settings.aboutImageUrl} 
+                  autoPlay muted loop playsInline
+                  className="w-full h-full object-cover opacity-40 group-hover:opacity-100 transition-opacity"
+                 />
+               ) : (
+                 <img 
+                  src={settings.aboutImageUrl} 
+                  alt="Banner Preview" 
+                  className="w-full h-full object-cover opacity-40 group-hover:opacity-100 transition-opacity" 
+                 />
+               )}
                <div className="absolute top-2 right-2 bg-black/50 text-[8px] uppercase tracking-widest px-2 py-1">Live Preview</div>
             </div>
           </div>

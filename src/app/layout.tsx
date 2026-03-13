@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { Montserrat, Poppins } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/layout/Navbar';
 import GlobalAdPopup from '@/components/GlobalAdPopup';
@@ -9,19 +8,8 @@ import { EnquiryProvider } from '@/context/EnquiryContext';
 import { courseService } from '@/services/courseService';
 import { settingsService } from '@/services/settingsService';
 
-const montserrat = Montserrat({
-  subsets: ['latin'],
-  weight: ['700', '800', '900'],
-  variable: '--font-montserrat',
-});
-
-const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800', '900'],
-  variable: '--font-poppins',
-});
-
 export const metadata: Metadata = {
+  metadataBase: new URL('https://maacdibrugarh.com'),
   title: 'MAAC Dibrugarh - Animation, VFX, and Digital Content Academy',
   description: 'Official website for MAAC Dibrugarh, the premier academy for Animation, VFX, 3D, and AI-driven marketing solutions.',
 };
@@ -39,7 +27,7 @@ export default async function RootLayout({
   const courseTitles = publishedCourses.map(c => c.title);
 
   return (
-    <html lang="en" className={`${montserrat.variable} ${poppins.variable}`}>
+    <html lang="en">
       <body className="font-sans antialiased text-white bg-obsidian-black selection:bg-maac-gold selection:text-obsidian-black">
         <EnquiryProvider initialCourses={courseTitles} contactPhone={settings.contactPhone}>
           <div className="noise-overlay" />
