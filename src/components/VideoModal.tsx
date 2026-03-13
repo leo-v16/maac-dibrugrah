@@ -13,7 +13,7 @@ export default function VideoModal({ isOpen, onClose, videoUrl }: VideoModalProp
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[250] flex items-center justify-center p-4 md:p-10">
+        <div className="fixed inset-0 z-250 flex items-center justify-center p-4 md:p-10">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

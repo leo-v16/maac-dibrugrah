@@ -4,6 +4,7 @@ import { Calendar, Clock, Award, Play, Headphones, ArrowLeft } from 'lucide-reac
 import Link from 'next/link';
 import { cleanHtml } from '@/utils/sanitize';
 import EnquireButton from '@/components/courses/EnquireButton';
+import CourseMobileCTA from '@/components/courses/CourseMobileCTA';
 import { Metadata } from 'next';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -62,7 +63,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       {/* Hero Section (Video or Image) */}
-      <section className="w-full aspect-video md:h-[60vh] bg-black relative overflow-hidden">
+      <section className="w-full h-[40vh] md:h-[60vh] bg-black relative overflow-hidden">
         {course.videoUrl ? (
           <video
             autoPlay
@@ -92,19 +93,19 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
         <div className="absolute inset-0 bg-linear-to-t from-obsidian-black via-obsidian-black/20 to-transparent" />
         
         {/* All Courses Back Button */}
-        <div className="absolute top-8 left-8 z-20">
+        <div className="absolute top-4 left-4 md:top-8 md:left-8 z-20">
           <Link 
             href="/courses" 
-            className="group flex items-center gap-3 bg-obsidian-black/40 hover:bg-maac-gold backdrop-blur-md border border-white/10 hover:border-maac-gold px-6 py-3 transition-all duration-300"
+            className="group flex items-center gap-2 md:gap-3 bg-obsidian-black/40 hover:bg-maac-gold backdrop-blur-md border border-white/10 hover:border-maac-gold px-4 py-2 md:px-6 md:py-3 transition-all duration-300"
           >
-            <ArrowLeft size={20} className="text-maac-gold group-hover:text-obsidian-black transition-colors" />
-            <span className="font-heading text-sm uppercase tracking-[0.2em] text-white group-hover:text-obsidian-black transition-colors">
+            <ArrowLeft size={18} className="text-maac-gold group-hover:text-obsidian-black transition-colors" />
+            <span className="font-heading text-[10px] md:text-sm uppercase tracking-[0.2em] text-white group-hover:text-obsidian-black transition-colors">
               All Courses
             </span>
           </Link>
         </div>
 
-        <div className="absolute bottom-12 left-0 w-full px-6">
+        <div className="absolute bottom-8 left-0 w-full px-6">
           <div className="container mx-auto">
              <div className="flex items-center gap-2 text-maac-gold font-heading text-[10px] uppercase tracking-[0.3em] mb-4">
                {(course.videoUrl || isVideo(course.thumbnailUrl)) ? <Play size={12} fill="currentColor" /> : <Award size={12} />} 
@@ -114,19 +115,19 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
         </div>
       </section>
 
-      <div className="container mx-auto px-6 py-16">
-        <div className="max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
+      <div className="container mx-auto px-6 py-12 md:py-20">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-20">
             
             {/* Main Content */}
-            <div className="lg:col-span-2 space-y-12">
-              <div>
-                <h1 className="text-4xl md:text-6xl font-heading mb-6 leading-tight uppercase">
+            <div className="lg:col-span-2 space-y-10 md:space-y-16">
+              <div className="space-y-6">
+                <h1 className="text-4xl md:text-7xl font-heading leading-tight uppercase">
                   {course.title}
                 </h1>
-                <div className="flex flex-wrap items-center gap-8 text-[10px] uppercase tracking-widest text-maac-gold/60">
-                  <span className="flex items-center gap-2"><Clock size={14} /> {course.duration}</span>
-                  <span className="flex items-center gap-2"><Award size={14} /> Industry Certified</span>
+                <div className="flex flex-wrap items-center gap-x-8 gap-y-4 text-[10px] uppercase tracking-widest text-maac-gold/60">
+                  <span className="flex items-center gap-2 border-r border-white/10 pr-8"><Clock size={14} /> {course.duration}</span>
+                  <span className="flex items-center gap-2 border-r border-white/10 pr-8"><Award size={14} /> Industry Certified</span>
                   <span className="flex items-center gap-2"><Calendar size={14} /> New Batch Starting Soon</span>
                 </div>
               </div>
@@ -145,7 +146,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
               )}
 
               {course.audioUrl && (
-                <div className="p-8 bg-deep-navy border border-white/5 relative overflow-hidden group">
+                <div className="p-6 md:p-10 bg-deep-navy border border-white/5 relative overflow-hidden group">
                   <div className="absolute top-0 right-0 p-4 opacity-5">
                     <Headphones size={64} />
                   </div>
@@ -160,18 +161,22 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
             </div>
 
             {/* Sidebar / CTA */}
-            <aside className="space-y-8">
-               <div className="bg-deep-navy border border-white/5 p-8 sticky top-32">
-                  <h3 className="text-xl font-heading mb-6 uppercase">Enroll Now</h3>
-                  <p className="text-white/40 text-sm font-sans mb-8 leading-relaxed">
+            <aside className="hidden lg:block">
+               <div className="bg-deep-navy border border-white/5 p-8 lg:sticky lg:top-32 space-y-6">
+                  <h3 className="text-xl font-heading uppercase">Enroll Now</h3>
+                  <p className="text-white/40 text-sm font-sans leading-relaxed">
                     Start your journey in the world of High-End Animation and VFX with MAAC Dibrugarh.
                   </p>
                   <EnquireButton courseTitle={course.title} />
-                  </div>
-                  </aside>
+                  <p className="text-[10px] text-white/20 uppercase tracking-widest text-center">Get personalized career counseling</p>
+               </div>
+            </aside>
           </div>
         </div>
       </div>
+
+      {/* Mobile Fixed CTA */}
+      <CourseMobileCTA courseTitle={course.title} />
     </div>
   );
 }

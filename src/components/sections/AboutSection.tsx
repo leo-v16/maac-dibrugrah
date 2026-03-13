@@ -151,14 +151,11 @@ export default function AboutSection({
             
             {/* Animated Floating Elements */}
             <motion.div
-              animate={{ y: [0, -15, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute -top-4 -right-4 md:-top-6 md:-right-6 w-24 h-24 md:w-32 md:h-32 border border-maac-gold opacity-20"
+              className="absolute -top-4 -right-4 md:-top-6 md:-right-6 w-24 h-24 md:w-32 md:h-32 border border-maac-gold opacity-20 animate-float"
             />
             <motion.div
-              animate={{ x: [0, 15, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute -bottom-4 -left-4 md:-bottom-6 md:-left-6 w-20 h-20 md:w-24 md:h-24 border border-royal-blue opacity-20"
+              style={{ animationDelay: '1s' }}
+              className="absolute -bottom-4 -left-4 md:-bottom-6 md:-left-6 w-20 h-20 md:w-24 md:h-24 border border-royal-blue opacity-20 animate-float"
             />
           </motion.div>
         </div>

@@ -38,10 +38,8 @@ export default function Navbar() {
   return (
     <nav
       className={cn(
-        'fixed top-0 left-0 w-full z-50 transition-all duration-300 px-6 py-4',
-        scrolled 
-          ? 'bg-obsidian-black/90 backdrop-blur-md border-b border-deep-navy py-3' 
-          : 'bg-gradient-to-b from-obsidian-black/80 via-obsidian-black/40 to-transparent'
+        'fixed top-0 left-0 w-full z-50 transition-all duration-300 px-6 py-4 bg-obsidian-black border-b border-deep-navy',
+        scrolled ? 'py-3' : 'py-4'
       )}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">

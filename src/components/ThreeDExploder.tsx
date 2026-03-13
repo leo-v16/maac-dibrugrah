@@ -167,7 +167,7 @@ export default function ThreeDExploder() {
   return (
     <div className="relative w-full h-screen bg-obsidian-black overflow-hidden group cursor-crosshair">
       {/* Background glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-maac-gold/10 via-obsidian-black to-obsidian-black pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] from-maac-gold/10 via-obsidian-black to-obsidian-black pointer-events-none" />
       
       <div className="absolute top-10 w-full text-center z-10 pointer-events-none">
         <span className="inline-block bg-white/5 border border-white/10 rounded-full px-4 py-1">

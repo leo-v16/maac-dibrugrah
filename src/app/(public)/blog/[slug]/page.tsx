@@ -65,7 +65,7 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
           alt={blog.title}
           className="w-full h-full object-cover opacity-60"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-obsidian-black via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-obsidian-black via-transparent to-transparent" />
         
         <div className="absolute top-8 left-8 z-20">
           <Link 

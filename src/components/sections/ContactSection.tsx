@@ -14,13 +14,13 @@ export default function ContactSection({ settings }: { settings: SiteSettings })
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
-    courseInterest: 'Select Course'
+    courseInterest: 'Select Your Interest'
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.courseInterest === 'Select Course') {
-      alert('Please select a course of interest.');
+    if (formData.courseInterest === 'Select Your Interest') {
+      alert('Please select your interest.');
       return;
     }
     
@@ -28,7 +28,7 @@ export default function ContactSection({ settings }: { settings: SiteSettings })
     try {
       await leadService.createLead(formData as any);
       setSubmitted(true);
-      setFormData({ name: '', phone: '', courseInterest: 'Select Course' });
+      setFormData({ name: '', phone: '', courseInterest: 'Select Your Interest' });
     } catch (err) {
       console.error(err);
       alert('Failed to send enquiry. Please try again.');
@@ -42,8 +42,8 @@ export default function ContactSection({ settings }: { settings: SiteSettings })
   };
 
   return (
-    <section id="contact" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-obsidian-black snap-start py-20 md:py-0">
-      <div className="container mx-auto px-6 py-20">
+    <section id="contact" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-obsidian-black snap-start py-8 md:py-0">
+      <div className="container mx-auto px-6 py-8 md:py-20">
         <div className="flex flex-col md:flex-row gap-16 items-center">
           
           {/* Contact Details */}
@@ -191,7 +191,7 @@ export default function ContactSection({ settings }: { settings: SiteSettings })
                     onChange={handleChange}
                     className="w-full bg-obsidian-black border border-white/10 p-4 font-sans text-white focus:outline-none focus:border-maac-gold transition-colors appearance-none"
                   >
-                    <option disabled value="Select Course">Select Course</option>
+                    <option disabled value="Select Your Interest">Select Your Interest</option>
                     {availableCourses.map(course => (
                       <option key={course} value={course}>{course}</option>
                     ))}

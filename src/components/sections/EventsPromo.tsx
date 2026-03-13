@@ -21,8 +21,8 @@ export default function EventsPromo() {
           {/* Left Column: Text Content */}
           <div className="space-y-8 order-2 lg:order-1">
             <h2 className="text-[8vw] sm:text-[6vw] lg:text-5xl font-heading font-bold text-white leading-tight uppercase text-center lg:text-left">
-              MAAC Dibrugarh Events: <br className="hidden md:block" />
-              <span className="text-maac-gold">Celebrating Creativity and Innovation</span>
+              MAAC Dibrugarh: <br className="hidden md:block" />
+              <span className="text-maac-gold text-[6vw] sm:text-[4vw] lg:text-3xl">Celebrating Creativity and Innovation</span>
             </h2>
             
             <div className="space-y-6 text-center lg:text-left">

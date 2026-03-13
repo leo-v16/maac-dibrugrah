@@ -13,7 +13,7 @@ export default function EnquiryModal() {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
-    courseInterest: 'Select Course'
+    courseInterest: 'Select Your Interest'
   });
 
   // Sync with selected course from context when modal opens
@@ -21,15 +21,15 @@ export default function EnquiryModal() {
     if (isOpen) {
       setFormData(prev => ({
         ...prev,
-        courseInterest: selectedCourseName || 'Select Course'
+        courseInterest: selectedCourseName || 'Select Your Interest'
       }));
     }
   }, [isOpen, selectedCourseName]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.courseInterest === 'Select Course') {
-      alert('Please select a course of interest.');
+    if (formData.courseInterest === 'Select Your Interest') {
+      alert('Please select your interest.');
       return;
     }
     
@@ -37,7 +37,7 @@ export default function EnquiryModal() {
     try {
       await leadService.createLead(formData as any);
       setSubmitted(true);
-      setFormData({ name: '', phone: '', courseInterest: 'Select Course' });
+      setFormData({ name: '', phone: '', courseInterest: 'Select Your Interest' });
     } catch (err) {
       console.error(err);
       alert('Failed to send enquiry. Please try again.');
@@ -140,7 +140,7 @@ export default function EnquiryModal() {
                       value={formData.courseInterest} onChange={handleChange}
                       className="w-full bg-obsidian-black border border-white/5 p-4 font-sans text-white focus:outline-none focus:border-maac-gold/50 transition-colors appearance-none"
                     >
-                      <option disabled value="Select Course">Select Course</option>
+                      <option disabled value="Select Your Interest">Select Your Interest</option>
                       {availableCourses.map(course => (
                         <option key={course} value={course}>{course}</option>
                       ))}
